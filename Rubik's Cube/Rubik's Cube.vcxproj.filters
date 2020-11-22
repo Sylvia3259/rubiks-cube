@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Point.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Cube.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -27,11 +24,17 @@
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Triangle.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Point.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Cube.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -39,6 +42,15 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="constants.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Triangle.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

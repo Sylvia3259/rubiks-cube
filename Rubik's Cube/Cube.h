@@ -1,9 +1,9 @@
 #pragma once
-#include "Point.h"
+#include "Vector.h"
 
 class Cube {
 private:
-	Point vertex[2][2][2];
+	Vector vertex[2][2][2];
 public:
 	Cube();
 	Cube(double x, double y, double z);
