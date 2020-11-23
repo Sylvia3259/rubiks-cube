@@ -1,7 +1,11 @@
 #include "Vector.h"
 
-Vector::Vector() {
-	x = 0, y = 0, z = 0;
+Vector::Vector() {}
+
+Vector::Vector(const Vector& obj) {
+	x = obj.x;
+	y = obj.y;
+	z = obj.z;
 }
 
 Vector::Vector(double x, double y, double z) {

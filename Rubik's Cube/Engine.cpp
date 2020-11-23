@@ -8,6 +8,9 @@ Engine::Engine(int width, int height) {
 	bufferScreen = new CHAR_INFO[screenWidth * screenHeight];
 	memset(bufferScreen, 0, sizeof(CHAR_INFO) * screenWidth * screenHeight);
 
+	COORD coord = { (short)screenWidth, (short)screenHeight };
+	SetConsoleScreenBufferSize(screen, coord);
+
 	CONSOLE_FONT_INFOEX font;
 	font.cbSize = sizeof(CONSOLE_FONT_INFOEX);
 	font.nFont = 0;
@@ -18,51 +21,52 @@ Engine::Engine(int width, int height) {
 	wcscpy_s(font.FaceName, L"Consolas");
 	SetCurrentConsoleFontEx(screen, FALSE, &font);
 
-	SMALL_RECT window = { 0, 0, screenWidth - 1, screenHeight - 1 };
-	SetConsoleWindowInfo(screen, TRUE, &window);
+	windowRect = { 0, 0, (short)screenWidth - 1, (short)screenHeight - 1 };
+	SetConsoleWindowInfo(screen, TRUE, &windowRect);
 }
 
 Engine::~Engine() {
 	delete[] bufferScreen;
 }
 
-void Engine::Run(double deltaTime) {
+void Engine::Run() {
 	isRunning = true;
 
 	OnCreate();
-	ULONGLONG oldTime = GetTickCount64(), currentTime;
+	ULONGLONG oldTime, currentTime = GetTickCount64();
 	while (isRunning) {
+		oldTime = currentTime;
 		currentTime = GetTickCount64();
 		OnUpdate((currentTime - oldTime) * 0.001);
-		oldTime = currentTime;
+		WriteConsoleOutput(screen, bufferScreen, { (short)screenWidth, (short)screenHeight }, { 0, 0 }, &windowRect);
 	}
 	OnDestroy();
 }
 
-inline bool Engine::GetRunningState() {
+bool Engine::GetRunningState() {
 	return isRunning;
 }
 
-inline void Engine::SetRunningState(bool runningState) {
+void Engine::SetRunningState(bool runningState) {
 	isRunning = runningState;
 }
 
-inline int Engine::GetScreenWidth() {
+int Engine::GetScreenWidth() {
 	return screenWidth;
 }
 
-inline int Engine::GetScreenHeight() {
+int Engine::GetScreenHeight() {
 	return screenHeight;
 }
 
-inline void Engine::DrawPixel(int x, int y, wchar_t pixel, short color) {
+void Engine::DrawPixel(int x, int y, wchar_t pixel, short color) {
 	if ((0 <= x && x < screenWidth) && (0 <= y && y < screenHeight)) {
 		bufferScreen[y * screenWidth + x].Char.UnicodeChar = pixel;
 		bufferScreen[y * screenWidth + x].Attributes = color;
 	}
 }
 
-inline void Engine::FillPixel(int x1, int y1, int x2, int y2, wchar_t pixel, short color) {
+void Engine::FillPixel(int x1, int y1, int x2, int y2, wchar_t pixel, short color) {
 	if ((0 <= x1 && x1 < screenWidth) && (0 <= y1 && y1 < screenHeight))
 		if ((0 <= x2 && x2 < screenWidth) && (0 <= y2 && y2 < screenHeight))
 			for (int y = y1; y < y2; ++y)

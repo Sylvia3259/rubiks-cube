@@ -2,12 +2,13 @@
 #include <math.h>
 
 class Vector {
-private:
+public:
 	double x;
 	double y;
 	double z;
-public:
+
 	Vector();
+	Vector(const Vector& obj);
 	Vector(double x, double y, double z);
 
 	void Normalize();
