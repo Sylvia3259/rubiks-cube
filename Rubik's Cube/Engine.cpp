@@ -117,14 +117,14 @@ void Engine::DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, wchar_
 }
 
 void Engine::FillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, wchar_t pixel, short color) {
-	auto SWAP = [](int& x, int& y) { 
-		int t = x; 
+	auto SWAP = [](int& x, int& y) {
+		int t = x;
 		x = y;
-		y = t; 
+		y = t;
 	};
-	auto drawline = [&](int sx, int ex, int ny) { 
-		for (int i = sx; i <= ex; i++) 
-			DrawPixel(i, ny, pixel, color); 
+	auto drawline = [&](int sx, int ex, int ny) {
+		for (int i = sx; i <= ex; i++)
+			DrawPixel(i, ny, pixel, color);
 	};
 
 	int t1x, t2x, y, minx, maxx, t1xp, t2xp;
@@ -133,32 +133,32 @@ void Engine::FillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, wchar_
 	int signx1, signx2, dx1, dy1, dx2, dy2;
 	int e1, e2;
 
-	if (y1 > y2) { 
-		SWAP(y1, y2); 
-		SWAP(x1, x2); 
+	if (y1 > y2) {
+		SWAP(y1, y2);
+		SWAP(x1, x2);
 	}
-	if (y1 > y3) { 
-		SWAP(y1, y3); 
-		SWAP(x1, x3); 
+	if (y1 > y3) {
+		SWAP(y1, y3);
+		SWAP(x1, x3);
 	}
-	if (y2 > y3) { 
-		SWAP(y2, y3); 
-		SWAP(x2, x3); 
+	if (y2 > y3) {
+		SWAP(y2, y3);
+		SWAP(x2, x3);
 	}
 
 	t1x = t2x = x1; y = y1;
-	dx1 = (int)(x2 - x1); 
-	if (dx1 < 0) { 
-		dx1 = -dx1; 
-		signx1 = -1; 
+	dx1 = (int)(x2 - x1);
+	if (dx1 < 0) {
+		dx1 = -dx1;
+		signx1 = -1;
 	}
 	else signx1 = 1;
 	dy1 = (int)(y2 - y1);
 
-	dx2 = (int)(x3 - x1); 
-	if (dx2 < 0) { 
-		dx2 = -dx2; 
-		signx2 = -1; 
+	dx2 = (int)(x3 - x1);
+	if (dx2 < 0) {
+		dx2 = -dx2;
+		signx2 = -1;
 	}
 	else signx2 = 1;
 	dy2 = (int)(y3 - y1);
@@ -178,13 +178,13 @@ void Engine::FillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, wchar_
 
 	for (int i = 0; i < dx1;) {
 		t1xp = 0; t2xp = 0;
-		if (t1x < t2x) { 
-			minx = t1x; 
-			maxx = t2x; 
+		if (t1x < t2x) {
+			minx = t1x;
+			maxx = t2x;
 		}
-		else { 
-			minx = t2x; 
-			maxx = t1x; 
+		else {
+			minx = t2x;
+			maxx = t1x;
 		}
 		while (i < dx1) {
 			i++;
@@ -209,9 +209,9 @@ void Engine::FillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, wchar_
 			else t2x += signx2;
 		}
 	next2:
-		if (minx > t1x) minx = t1x; 
+		if (minx > t1x) minx = t1x;
 		if (minx > t2x) minx = t2x;
-		if (maxx < t1x) maxx = t1x; 
+		if (maxx < t1x) maxx = t1x;
 		if (maxx < t2x) maxx = t2x;
 		drawline(minx, maxx, y);
 		if (!changed1) t1x += signx1;
@@ -222,10 +222,10 @@ void Engine::FillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, wchar_
 		if (y == y2) break;
 	}
 next:
-	dx1 = (int)(x3 - x2); 
-	if (dx1 < 0) { 
-		dx1 = -dx1; 
-		signx1 = -1; 
+	dx1 = (int)(x3 - x2);
+	if (dx1 < 0) {
+		dx1 = -dx1;
+		signx1 = -1;
 	}
 	else signx1 = 1;
 	dy1 = (int)(y3 - y2);
@@ -241,21 +241,21 @@ next:
 
 	for (int i = 0; i <= dx1; i++) {
 		t1xp = 0; t2xp = 0;
-		if (t1x < t2x) { 
-			minx = t1x; 
-			maxx = t2x; 
+		if (t1x < t2x) {
+			minx = t1x;
+			maxx = t2x;
 		}
-		else { 
-			minx = t2x; 
-			maxx = t1x; 
+		else {
+			minx = t2x;
+			maxx = t1x;
 		}
 		while (i < dx1) {
 			e1 += dy1;
 			while (e1 >= dx1) {
 				e1 -= dx1;
-				if (changed1) { 
+				if (changed1) {
 					t1xp = signx1;
-					break; 
+					break;
 				}
 				else goto next3;
 			}
@@ -275,9 +275,9 @@ next:
 			else t2x += signx2;
 		}
 	next4:
-		if (minx > t1x) minx = t1x; 
+		if (minx > t1x) minx = t1x;
 		if (minx > t2x) minx = t2x;
-		if (maxx < t1x) maxx = t1x; 
+		if (maxx < t1x) maxx = t1x;
 		if (maxx < t2x) maxx = t2x;
 		drawline(minx, maxx, y);
 		if (!changed1) t1x += signx1;
