@@ -1,6 +1,10 @@
 #include "Vector.h"
 
-Vector::Vector() {}
+Vector::Vector() {
+	x = 0;
+	y = 0;
+	z = 0;
+}
 
 Vector::Vector(const Vector& obj) {
 	x = obj.x;
