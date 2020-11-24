@@ -98,7 +98,7 @@ public:
 				Vector lightDirection(0, 0, -1);
 				lightDirection.Normalize();
 
-				float lum = normal.x * lightDirection.x + normal.y * lightDirection.y + normal.z * lightDirection.z;
+				double lum = normal.x * lightDirection.x + normal.y * lightDirection.y + normal.z * lightDirection.z;
 				CHAR_INFO pixel = GetPixelInfo(lum);
 
 				tempTriangle.Project(0.1, 1000, 90, (double)GetScreenHeight() / GetScreenWidth());
