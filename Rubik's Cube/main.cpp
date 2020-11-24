@@ -1,15 +1,12 @@
-﻿#include <iostream>
-#include <Windows.h>
-#include "constants.h"
-#include "Engine.h"
+﻿#include "Engine.h"
 #include "Triangle.h"
 using namespace std;
 
 class RubiksEngine : public Engine {
 private:
+	double theta;
 	Triangle cube[12];
 	Vector camera;
-	double theta;
 
 	CHAR_INFO GetPixelInfo(double lum)
 	{
@@ -20,20 +17,20 @@ private:
 		{
 		case 0: backgroundColor = BG_BLACK; foregroundColor = FG_BLACK; pixelType = PIXEL_SOLID; break;
 
-		case 1: backgroundColor = BG_BLACK; foregroundColor = FG_DARK_GREY; pixelType = PIXEL_QUARTER; break;
-		case 2: backgroundColor = BG_BLACK; foregroundColor = FG_DARK_GREY; pixelType = PIXEL_HALF; break;
-		case 3: backgroundColor = BG_BLACK; foregroundColor = FG_DARK_GREY; pixelType = PIXEL_THREEQUARTERS; break;
-		case 4: backgroundColor = BG_BLACK; foregroundColor = FG_DARK_GREY; pixelType = PIXEL_SOLID; break;
+		case 1: backgroundColor = BG_BLACK; foregroundColor = FG_DARK_GRAY; pixelType = PIXEL_QUARTER; break;
+		case 2: backgroundColor = BG_BLACK; foregroundColor = FG_DARK_GRAY; pixelType = PIXEL_HALF; break;
+		case 3: backgroundColor = BG_BLACK; foregroundColor = FG_DARK_GRAY; pixelType = PIXEL_THREEQUARTERS; break;
+		case 4: backgroundColor = BG_BLACK; foregroundColor = FG_DARK_GRAY; pixelType = PIXEL_SOLID; break;
 
-		case 5: backgroundColor = BG_DARK_GREY; foregroundColor = FG_GREY; pixelType = PIXEL_QUARTER; break;
-		case 6: backgroundColor = BG_DARK_GREY; foregroundColor = FG_GREY; pixelType = PIXEL_HALF; break;
-		case 7: backgroundColor = BG_DARK_GREY; foregroundColor = FG_GREY; pixelType = PIXEL_THREEQUARTERS; break;
-		case 8: backgroundColor = BG_DARK_GREY; foregroundColor = FG_GREY; pixelType = PIXEL_SOLID; break;
+		case 5: backgroundColor = BG_DARK_GRAY; foregroundColor = FG_GRAY; pixelType = PIXEL_QUARTER; break;
+		case 6: backgroundColor = BG_DARK_GRAY; foregroundColor = FG_GRAY; pixelType = PIXEL_HALF; break;
+		case 7: backgroundColor = BG_DARK_GRAY; foregroundColor = FG_GRAY; pixelType = PIXEL_THREEQUARTERS; break;
+		case 8: backgroundColor = BG_DARK_GRAY; foregroundColor = FG_GRAY; pixelType = PIXEL_SOLID; break;
 
-		case 9:  backgroundColor = BG_GREY; foregroundColor = FG_WHITE; pixelType = PIXEL_QUARTER; break;
-		case 10: backgroundColor = BG_GREY; foregroundColor = FG_WHITE; pixelType = PIXEL_HALF; break;
-		case 11: backgroundColor = BG_GREY; foregroundColor = FG_WHITE; pixelType = PIXEL_THREEQUARTERS; break;
-		case 12: backgroundColor = BG_GREY; foregroundColor = FG_WHITE; pixelType = PIXEL_SOLID; break;
+		case 9:  backgroundColor = BG_GRAY; foregroundColor = FG_WHITE; pixelType = PIXEL_QUARTER; break;
+		case 10: backgroundColor = BG_GRAY; foregroundColor = FG_WHITE; pixelType = PIXEL_HALF; break;
+		case 11: backgroundColor = BG_GRAY; foregroundColor = FG_WHITE; pixelType = PIXEL_THREEQUARTERS; break;
+		case 12: backgroundColor = BG_GRAY; foregroundColor = FG_WHITE; pixelType = PIXEL_SOLID; break;
 
 		default: backgroundColor = BG_BLACK; foregroundColor = FG_BLACK; pixelType = PIXEL_SOLID;
 		}
@@ -45,11 +42,11 @@ private:
 	}
 
 public:
-	RubiksEngine(int width, int height) : Engine(width, height) {
+	RubiksEngine(short width, short height) : Engine(width, height) {
 		theta = 0;
 	}
 
-	void OnCreate() override {
+	bool OnCreate() override {
 		cube[0] = Triangle(-1, -1, -1, -1, 1, -1, 1, 1, -1);
 		cube[1] = Triangle(-1, -1, -1, 1, 1, -1, 1, -1, -1);
 
@@ -67,15 +64,14 @@ public:
 
 		cube[10] = Triangle(1, -1, 1, -1, -1, 1, -1, -1, -1);
 		cube[11] = Triangle(1, -1, 1, -1, -1, -1, 1, -1, -1);
+
+		return true;
 	}
 
-	void OnUpdate(double deltaTime) override {
-		FillPixel(0, 0, GetScreenWidth() - 1, GetScreenHeight() - 1, PIXEL_SOLID, FG_BLACK);
-
+	bool OnUpdate(double deltaTime) override {
 		theta += deltaTime * 1.5;
 
-		for (const auto& triangle : cube)
-		{
+		for (const auto& triangle : cube) {
 			Triangle tempTriangle(triangle);
 
 			tempTriangle.Rotate(theta * 1.0, theta * 0.5, theta * 0.75);
@@ -93,7 +89,6 @@ public:
 			normal.x = line1.y * line2.z - line1.z * line2.y;
 			normal.y = line1.z * line2.x - line1.x * line2.z;
 			normal.z = line1.x * line2.y - line1.y * line2.x;
-
 			normal.Normalize();
 
 			if (normal.x * (tempTriangle.point[0].x - camera.x) +
@@ -108,14 +103,14 @@ public:
 
 				tempTriangle.Project(0.1, 1000, 90, (double)GetScreenHeight() / GetScreenWidth());
 
-				tempTriangle.point[0].x += 1.0;
-				tempTriangle.point[0].y += 1.0f;
+				tempTriangle.point[0].x += 1;
+				tempTriangle.point[0].y += 1;
 
-				tempTriangle.point[1].x += 1.0;
-				tempTriangle.point[1].y += 1.0f;
+				tempTriangle.point[1].x += 1;
+				tempTriangle.point[1].y += 1;
 
-				tempTriangle.point[2].x += 1.0;
-				tempTriangle.point[2].y += 1.0f;
+				tempTriangle.point[2].x += 1;
+				tempTriangle.point[2].y += 1;
 
 				tempTriangle.point[0].x *= GetScreenWidth() * 0.5;
 				tempTriangle.point[0].y *= GetScreenHeight() * 0.5;
@@ -127,18 +122,19 @@ public:
 				tempTriangle.point[2].y *= GetScreenHeight() * 0.5;
 
 				FillTriangle(
-					tempTriangle.point[0].x, tempTriangle.point[0].y,
-					tempTriangle.point[1].x, tempTriangle.point[1].y,
-					tempTriangle.point[2].x, tempTriangle.point[2].y,
+					(int)tempTriangle.point[0].x, (int)tempTriangle.point[0].y,
+					(int)tempTriangle.point[1].x, (int)tempTriangle.point[1].y,
+					(int)tempTriangle.point[2].x, (int)tempTriangle.point[2].y,
 					pixel.Char.UnicodeChar, pixel.Attributes
 				);
 			}
-
 		}
+
+		return true;
 	}
 
-	void OnDestroy() override {
-
+	bool OnDestroy() override {
+		return true;
 	}
 };
 

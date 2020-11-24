@@ -1,32 +1,27 @@
 #include "Engine.h"
 
-Engine::Engine(int width, int height) {
-	screenWidth = width;
-	screenHeight = height;
+Engine::Engine(short width, short height) {
+	isRunning = false;
 
-	screen = GetStdHandle(STD_OUTPUT_HANDLE);
-	bufferScreen = new CHAR_INFO[screenWidth * screenHeight];
-	memset(bufferScreen, 0, sizeof(CHAR_INFO) * screenWidth * screenHeight);
+	consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	COORD coord = { (short)screenWidth, (short)screenHeight };
-	SetConsoleScreenBufferSize(screen, coord);
+	CONSOLE_FONT_INFOEX font = { sizeof(font), 0, { 4, 4 }, FF_DONTCARE, FW_NORMAL, L"" };
+	SetCurrentConsoleFontEx(consoleHandle, FALSE, &font);
 
-	CONSOLE_FONT_INFOEX font;
-	font.cbSize = sizeof(CONSOLE_FONT_INFOEX);
-	font.nFont = 0;
-	font.dwFontSize.X = 4;
-	font.dwFontSize.Y = 4;
-	font.FontFamily = FF_DONTCARE;
-	font.FontWeight = FW_NORMAL;
-	wcscpy_s(font.FaceName, L"Consolas");
-	SetCurrentConsoleFontEx(screen, FALSE, &font);
+	CONSOLE_CURSOR_INFO cursorInfo = { 1, FALSE };
+	SetConsoleCursorInfo(consoleHandle, &cursorInfo);
 
-	windowRect = { 0, 0, (short)screenWidth - 1, (short)screenHeight - 1 };
-	SetConsoleWindowInfo(screen, TRUE, &windowRect);
+	consoleSize = { width, height };
+	SetConsoleScreenBufferSize(consoleHandle, consoleSize);
+
+	console = { 0, 0, width - 1, height - 1 };
+	SetConsoleWindowInfo(consoleHandle, TRUE, &console);
+
+	consoleBuffer = new CHAR_INFO[(long long)width * height];
 }
 
 Engine::~Engine() {
-	delete[] bufferScreen;
+	delete[] consoleBuffer;
 }
 
 void Engine::Run() {
@@ -37,38 +32,35 @@ void Engine::Run() {
 	while (isRunning) {
 		oldTime = currentTime;
 		currentTime = GetTickCount64();
+		memset(consoleBuffer, 0, sizeof(CHAR_INFO) * consoleSize.X * consoleSize.Y);
 		OnUpdate((currentTime - oldTime) * 0.001);
-		WriteConsoleOutput(screen, bufferScreen, { (short)screenWidth, (short)screenHeight }, { 0, 0 }, &windowRect);
+		WriteConsoleOutput(consoleHandle, consoleBuffer, { consoleSize.X, consoleSize.Y }, { 0, 0 }, &console);
 	}
 	OnDestroy();
 }
 
-bool Engine::GetRunningState() {
-	return isRunning;
+void Engine::Stop() {
+	isRunning = false;
 }
 
-void Engine::SetRunningState(bool runningState) {
-	isRunning = runningState;
+short Engine::GetScreenWidth() const noexcept {
+	return consoleSize.X;
 }
 
-int Engine::GetScreenWidth() {
-	return screenWidth;
-}
-
-int Engine::GetScreenHeight() {
-	return screenHeight;
+short Engine::GetScreenHeight() const noexcept {
+	return consoleSize.Y;
 }
 
 void Engine::DrawPixel(int x, int y, wchar_t pixel, short color) {
-	if ((0 <= x && x < screenWidth) && (0 <= y && y < screenHeight)) {
-		bufferScreen[y * screenWidth + x].Char.UnicodeChar = pixel;
-		bufferScreen[y * screenWidth + x].Attributes = color;
+	if ((console.Left <= x && x <= console.Right) && (console.Top <= y && y <= console.Bottom)) {
+		consoleBuffer[y * consoleSize.X + x].Char.UnicodeChar = pixel;
+		consoleBuffer[y * consoleSize.X + x].Attributes = color;
 	}
 }
 
 void Engine::FillPixel(int x1, int y1, int x2, int y2, wchar_t pixel, short color) {
-	if ((0 <= x1 && x1 < screenWidth) && (0 <= y1 && y1 < screenHeight))
-		if ((0 <= x2 && x2 < screenWidth) && (0 <= y2 && y2 < screenHeight))
+	if ((console.Left <= x1 && x1 <= console.Right) && (console.Top <= y1 && y1 <= console.Bottom))
+		if ((console.Left <= x2 && x2 <= console.Right) && (console.Top <= y2 && y2 <= console.Bottom))
 			for (int y = y1; y < y2; ++y)
 				for (int x = x1; x < x2; ++x)
 					DrawPixel(x, y, pixel, color);

@@ -1,33 +1,30 @@
 #pragma once
 #include <math.h>
 #include <Windows.h>
+#include "constants.h"
 
 class Engine {
 private:
 	bool isRunning;
 
-	int screenWidth;
-	int screenHeight;
-
-	HANDLE screen;
-	CHAR_INFO* bufferScreen;
-
-	SMALL_RECT windowRect;
+	HANDLE consoleHandle;
+	COORD consoleSize;
+	SMALL_RECT console;
+	CHAR_INFO* consoleBuffer;
 
 public:
-	Engine(int width, int height);
+	Engine(short width, short height);
 	~Engine();
 
 	void Run();
+	void Stop();
 
-	virtual void OnCreate() = 0;
-	virtual void OnUpdate(double deltaTime) = 0;
-	virtual void OnDestroy() = 0;
+	virtual bool OnCreate() = 0;
+	virtual bool OnUpdate(double deltaTime) = 0;
+	virtual bool OnDestroy() = 0;
 
-	bool GetRunningState();
-	void SetRunningState(bool runningState);
-	int GetScreenWidth();
-	int GetScreenHeight();
+	short GetScreenWidth() const noexcept;
+	short GetScreenHeight() const noexcept;
 
 	void DrawPixel(int x, int y, wchar_t pixel, short color);
 	void FillPixel(int x1, int y1, int x2, int y2, wchar_t pixel, short color);
