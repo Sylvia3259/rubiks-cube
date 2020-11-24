@@ -55,8 +55,8 @@ void Vector::Project(double near, double far, double fov, double aspect) {
 
 	double tx, ty, tz;
 
-	tx = x * (1.f / (aspect * tanf(fov * 0.5f)));
-	ty = y * (1.f / tanf(fov * 0.5f));
+	tx = x * (1 / (aspect * tan(fov * 0.5)));
+	ty = y * (1 / tan(fov * 0.5));
 	tz = z * (far / (far - near)) + ((-far * near) / (far - near));
 
 	if (z != 0) {
