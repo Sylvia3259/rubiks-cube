@@ -8,31 +8,24 @@ private:
 	Triangle cube[12];
 	Vector camera;
 
-	CHAR_INFO GetPixelInfo(double lum)
-	{
-		short backgroundColor, foregroundColor;
-		wchar_t pixelType;
+	CHAR_INFO GetPixelInfo(double light) {
+		short backgroundColor = BG_BLACK, foregroundColor = FG_BLACK;
+		wchar_t pixelType = PIXEL_SOLID;
 
-		switch ((int)(13 * lum))
-		{
+		switch ((int)(light * 12)) {
 		case 0: backgroundColor = BG_BLACK; foregroundColor = FG_BLACK; pixelType = PIXEL_SOLID; break;
-
 		case 1: backgroundColor = BG_BLACK; foregroundColor = FG_DARK_GRAY; pixelType = PIXEL_QUARTER; break;
 		case 2: backgroundColor = BG_BLACK; foregroundColor = FG_DARK_GRAY; pixelType = PIXEL_HALF; break;
 		case 3: backgroundColor = BG_BLACK; foregroundColor = FG_DARK_GRAY; pixelType = PIXEL_THREEQUARTERS; break;
 		case 4: backgroundColor = BG_BLACK; foregroundColor = FG_DARK_GRAY; pixelType = PIXEL_SOLID; break;
-
 		case 5: backgroundColor = BG_DARK_GRAY; foregroundColor = FG_GRAY; pixelType = PIXEL_QUARTER; break;
 		case 6: backgroundColor = BG_DARK_GRAY; foregroundColor = FG_GRAY; pixelType = PIXEL_HALF; break;
 		case 7: backgroundColor = BG_DARK_GRAY; foregroundColor = FG_GRAY; pixelType = PIXEL_THREEQUARTERS; break;
 		case 8: backgroundColor = BG_DARK_GRAY; foregroundColor = FG_GRAY; pixelType = PIXEL_SOLID; break;
-
 		case 9:  backgroundColor = BG_GRAY; foregroundColor = FG_WHITE; pixelType = PIXEL_QUARTER; break;
 		case 10: backgroundColor = BG_GRAY; foregroundColor = FG_WHITE; pixelType = PIXEL_HALF; break;
 		case 11: backgroundColor = BG_GRAY; foregroundColor = FG_WHITE; pixelType = PIXEL_THREEQUARTERS; break;
 		case 12: backgroundColor = BG_GRAY; foregroundColor = FG_WHITE; pixelType = PIXEL_SOLID; break;
-
-		default: backgroundColor = BG_BLACK; foregroundColor = FG_BLACK; pixelType = PIXEL_SOLID;
 		}
 
 		CHAR_INFO c;
@@ -95,11 +88,11 @@ public:
 				normal.y * (tempTriangle.point[0].y - camera.y) +
 				normal.z * (tempTriangle.point[0].z - camera.z) < 0.0f)
 			{
-				Vector lightDirection(0, 0, -1);
-				lightDirection.Normalize();
+				Vector lightSource(0, 0, -1);
+				lightSource.Normalize();
 
-				double lum = normal.x * lightDirection.x + normal.y * lightDirection.y + normal.z * lightDirection.z;
-				CHAR_INFO pixel = GetPixelInfo(lum);
+				double light = normal.x * lightSource.x + normal.y * lightSource.y + normal.z * lightSource.z;
+				CHAR_INFO pixel = GetPixelInfo(light);
 
 				tempTriangle.Project(0.1, 1000, 90, (double)GetScreenHeight() / GetScreenWidth());
 
