@@ -1,5 +1,5 @@
-﻿#include "Engine.h"
-#include "Triangle.h"
+﻿#include "Triangle.h"
+#include "Engine.h"
 using namespace std;
 
 class RubiksEngine : public Engine {
@@ -39,7 +39,7 @@ public:
 		theta = 0;
 	}
 
-	bool OnCreate() override {
+	void OnCreate() override {
 		cube[0] = Triangle(-1, -1, -1, -1, 1, -1, 1, 1, -1);
 		cube[1] = Triangle(-1, -1, -1, 1, 1, -1, 1, -1, -1);
 
@@ -57,11 +57,9 @@ public:
 
 		cube[10] = Triangle(1, -1, 1, -1, -1, 1, -1, -1, -1);
 		cube[11] = Triangle(1, -1, 1, -1, -1, -1, 1, -1, -1);
-
-		return true;
 	}
 
-	bool OnUpdate(double deltaTime) override {
+	void OnUpdate(double deltaTime) override {
 		theta += deltaTime * 1.5;
 
 		for (const auto& triangle : cube) {
@@ -94,7 +92,7 @@ public:
 				double light = normal.x * lightSource.x + normal.y * lightSource.y + normal.z * lightSource.z;
 				CHAR_INFO pixel = GetPixelInfo(light);
 
-				tempTriangle.Project(0.1, 1000, 90, (double)GetScreenHeight() / GetScreenWidth());
+				tempTriangle.Project(0.1, 1000, 90, (double)GetScreenWidth() / GetScreenHeight());
 
 				tempTriangle.point[0].x += 1;
 				tempTriangle.point[0].y += 1;
@@ -122,12 +120,10 @@ public:
 				);
 			}
 		}
-
-		return true;
 	}
 
-	bool OnDestroy() override {
-		return true;
+	void OnDestroy() override {
+
 	}
 };
 

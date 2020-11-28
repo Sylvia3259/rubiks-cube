@@ -58,14 +58,6 @@ void Engine::DrawPixel(int x, int y, wchar_t pixel, short color) {
 	}
 }
 
-void Engine::FillPixel(int x1, int y1, int x2, int y2, wchar_t pixel, short color) {
-	if ((console.Left <= x1 && x1 <= console.Right) && (console.Top <= y1 && y1 <= console.Bottom))
-		if ((console.Left <= x2 && x2 <= console.Right) && (console.Top <= y2 && y2 <= console.Bottom))
-			for (int y = y1; y < y2; ++y)
-				for (int x = x1; x < x2; ++x)
-					DrawPixel(x, y, pixel, color);
-}
-
 void Engine::DrawLine(int x1, int y1, int x2, int y2, wchar_t pixel, short color) {
 	int dx = x2 - x1;
 	int ix = (dx > 0) - (dx < 0);

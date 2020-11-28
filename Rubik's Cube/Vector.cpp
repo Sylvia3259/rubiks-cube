@@ -35,14 +35,14 @@ void Vector::Translate(double x, double y, double z) {
 void Vector::Rotate(double x, double y, double z) {
 	double tx, ty, tz;
 
-	tx  = this->x * (cos(y) * cos(z))
+	tx = this->x * (cos(y) * cos(z))
 		+ this->y * (-cos(x) * sin(z) + sin(x) * sin(y) * cos(z))
 		+ this->z * (sin(x) * sin(z) + cos(x) * sin(y) * cos(z));
-	ty  = this->x * (cos(y) * sin(z))
+	ty = this->x * (cos(y) * sin(z))
 		+ this->y * (cos(x) * cos(z) + sin(x) * sin(y) * sin(z))
 		+ this->z * (-sin(x) * cos(z) + cos(x) * sin(y) * sin(z));
-	tz  = this->x * (-sin(y)) 
-		+ this->y * (sin(x) * cos(y)) 
+	tz = this->x * (-sin(y))
+		+ this->y * (sin(x) * cos(y))
 		+ this->z * (cos(x) * cos(y));
 
 	this->x = tx;
@@ -51,19 +51,13 @@ void Vector::Rotate(double x, double y, double z) {
 }
 
 void Vector::Project(double near, double far, double fov, double aspect) {
-	fov *= 3.14159 / 180.0;
+	fov *= 3.14159 / 180;
 
 	double tx, ty, tz;
 
-	tx = x * (1 / (aspect * tan(fov * 0.5)));
-	ty = y * (1 / tan(fov * 0.5));
-	tz = z * (far / (far - near)) + ((-far * near) / (far - near));
-
-	if (z != 0) {
-		tx /= z; 
-		ty /= z; 
-		tz /= z;
-	}
+	tx = (x * ((1 / tan(fov * 0.5)) / aspect)) / z;
+	ty = (y * (1 / tan(fov * 0.5))) / z;
+	tz = (z * (far / (far - near)) + (-near * far / (far - near))) / z;
 
 	x = tx;
 	y = ty;
