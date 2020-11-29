@@ -1,10 +1,10 @@
 #pragma once
-#include "Cube.h"
+#include "Triangle.h"
 
 class Rubiks {
-private:
-	Cube cube[3][3][3];
 public:
+	Triangle cubes[3][3][3][12];
+	Vector cubeCenters[3][3][3];
+
 	Rubiks();
-	void Rotate(int command);
 };

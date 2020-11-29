@@ -12,8 +12,8 @@ public:
 
 	double Magnitude();
 	void Normalize();
-	double Dot(Vector v);
-	Vector Cross(Vector v);
+	double Dot(const Vector& v);
+	Vector Cross(const Vector& v);
 	void Scale(double x, double y, double z);
 	void Rotate(double x, double y, double z);
 	void Translate(double x, double y, double z);
@@ -23,10 +23,7 @@ public:
 	Vector operator-(const Vector& v) const;
 	Vector operator+() const;
 	Vector operator-() const;
-	Vector operator*(const double k) const;
-	Vector& operator+=(const Vector& v);
-	Vector& operator-=(const Vector& v);
-	Vector& operator*=(const double k);
+	Vector operator*(double k) const;
 };
 
-Vector operator*(const double k, const Vector& v);
+Vector operator*(double k, const Vector& v);

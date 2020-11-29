@@ -41,23 +41,23 @@ public:
 	}
 
 	void OnCreate() override {
-		cube[0] = Triangle(-1, -1, -1, -1, 1, -1, 1, 1, -1);
-		cube[1] = Triangle(-1, -1, -1, 1, 1, -1, 1, -1, -1);
+		cube[0] = Triangle(Vector(-1, -1, -1), Vector(-1, +1, -1), Vector(+1, +1, -1));
+		cube[1] = Triangle(Vector(-1, -1, -1), Vector(+1, +1, -1), Vector(+1, -1, -1));
 
-		cube[2] = Triangle(1, -1, -1, 1, 1, -1, 1, 1, 1);
-		cube[3] = Triangle(1, -1, -1, 1, 1, 1, 1, -1, 1);
+		cube[2] = Triangle(Vector(+1, -1, -1), Vector(+1, +1, -1), Vector(+1, +1, +1));
+		cube[3] = Triangle(Vector(+1, -1, -1), Vector(+1, +1, +1), Vector(+1, -1, +1));
 
-		cube[4] = Triangle(1, -1, 1, 1, 1, 1, -1, 1, 1);
-		cube[5] = Triangle(1, -1, 1, -1, 1, 1, -1, -1, 1);
+		cube[4] = Triangle(Vector(+1, -1, +1), Vector(+1, +1, +1), Vector(-1, +1, +1));
+		cube[5] = Triangle(Vector(+1, -1, +1), Vector(-1, +1, +1), Vector(-1, -1, +1));
 
-		cube[6] = Triangle(-1, -1, 1, -1, 1, 1, -1, 1, -1);
-		cube[7] = Triangle(-1, -1, 1, -1, 1, -1, -1, -1, -1);
+		cube[6] = Triangle(Vector(-1, -1, +1), Vector(-1, +1, +1), Vector(-1, +1, -1));
+		cube[7] = Triangle(Vector(-1, -1, +1), Vector(-1, +1, -1), Vector(-1, -1, -1));
 
-		cube[8] = Triangle(-1, 1, -1, -1, 1, 1, 1, 1, 1);
-		cube[9] = Triangle(-1, 1, -1, 1, 1, 1, 1, 1, -1);
+		cube[8] = Triangle(Vector(-1, +1, -1), Vector(-1, +1, +1), Vector(+1, +1, +1));
+		cube[9] = Triangle(Vector(-1, +1, -1), Vector(+1, +1, +1), Vector(+1, +1, -1));
 
-		cube[10] = Triangle(1, -1, 1, -1, -1, 1, -1, -1, -1);
-		cube[11] = Triangle(1, -1, 1, -1, -1, -1, 1, -1, -1);
+		cube[10] = Triangle(Vector(+1, -1, +1), Vector(-1, -1, +1), Vector(-1, -1, -1));
+		cube[11] = Triangle(Vector(+1, -1, +1), Vector(-1, -1, -1), Vector(+1, -1, -1));
 	}
 
 	void OnUpdate(double deltaTime) override {
@@ -70,12 +70,12 @@ public:
 			tempTriangle.Translate(0, 0, 5);
 
 			Vector line1, line2, normal;
-			line1 = tempTriangle.point[1] - tempTriangle.point[0];
-			line2 = tempTriangle.point[2] - tempTriangle.point[0];
+			line1 = tempTriangle.points[1] - tempTriangle.points[0];
+			line2 = tempTriangle.points[2] - tempTriangle.points[0];
 			normal = line1.Cross(line2);
 			normal.Normalize();
 
-			if (normal.Dot(tempTriangle.point[0] - camera) < 0) {
+			if (normal.Dot(tempTriangle.points[0] - camera) < 0) {
 				Vector lightSource(0, 0, -1);
 				lightSource.Normalize();
 
@@ -88,9 +88,9 @@ public:
 				tempTriangle.Scale(GetScreenWidth() * 0.5, GetScreenHeight() * 0.5, 0);
 
 				FillTriangle(
-					(int)tempTriangle.point[0].x, (int)tempTriangle.point[0].y,
-					(int)tempTriangle.point[1].x, (int)tempTriangle.point[1].y,
-					(int)tempTriangle.point[2].x, (int)tempTriangle.point[2].y,
+					(int)tempTriangle.points[0].x, (int)tempTriangle.points[0].y,
+					(int)tempTriangle.points[1].x, (int)tempTriangle.points[1].y,
+					(int)tempTriangle.points[2].x, (int)tempTriangle.points[2].y,
 					pixel.Char.UnicodeChar, pixel.Attributes
 				);
 			}

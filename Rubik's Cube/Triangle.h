@@ -3,12 +3,12 @@
 
 class Triangle {
 public:
-	Vector point[3];
+	short color;
+	Vector points[3];
 
 	Triangle();
-	Triangle(const Triangle& obj);
-	Triangle(double x1, double y1, double z1, double x2, double y2, double z2, double x3, double y3, double z3);
-
+	Triangle(const Vector& v1, const Vector& v2, const Vector& v3);
+	
 	void Scale(double x, double y, double z);
 	void Rotate(double x, double y, double z);
 	void Translate(double x, double y, double z);

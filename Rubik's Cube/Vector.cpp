@@ -24,11 +24,11 @@ void Vector::Normalize() {
 	z /= length;
 }
 
-double Vector::Dot(Vector v) {
+double Vector::Dot(const Vector& v) {
 	return x*v.x + y*v.y + z*v.z;
 }
 
-Vector Vector::Cross(Vector v) {
+Vector Vector::Cross(const Vector& v) {
 	return Vector(y*v.z - z*v.y, z*v.x - x*v.z, x*v.y - y*v.x);
 }
 
@@ -92,34 +92,10 @@ Vector Vector::operator-() const {
 	return Vector(-x, -y, -z);
 }
 
-Vector Vector::operator*(const double k) const {
+Vector Vector::operator*(double k) const {
 	return Vector(k*x, k*y, k*z);
 }
 
-Vector& Vector::operator+=(const Vector& v) {
-	x += v.x;
-	y += v.y;
-	z += v.z;
-
-	return *this;
-}
-
-Vector& Vector::operator-=(const Vector& v) {
-	x -= v.x;
-	y -= v.y;
-	z -= v.z;
-
-	return *this;
-}
-
-Vector& Vector::operator*=(const double k) {
-	x *= k;
-	y *= k;
-	z *= k;
-
-	return *this;
-}
-
-Vector operator*(const double k, const Vector& v) {
+Vector operator*(double k, const Vector& v) {
 	return Vector(k*v.x, k*v.y, k*v.z);
 }
