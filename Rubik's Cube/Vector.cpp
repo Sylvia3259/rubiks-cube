@@ -6,12 +6,6 @@ Vector::Vector() {
 	z = 0;
 }
 
-Vector::Vector(const Vector& v) {
-	x = v.x;
-	y = v.y;
-	z = v.z;
-}
-
 Vector::Vector(double x, double y, double z) {
 	this->x = x;
 	this->y = y;

@@ -8,7 +8,6 @@ public:
 	double z;
 
 	Vector();
-	Vector(const Vector& v);
 	Vector(double x, double y, double z);
 
 	double Magnitude();
