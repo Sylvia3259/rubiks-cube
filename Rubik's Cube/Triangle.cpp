@@ -13,14 +13,19 @@ Triangle::Triangle(double x1, double y1, double z1, double x2, double y2, double
 	point[2] = Vector(x3, y3, z3);
 }
 
-void Triangle::Translate(double x, double y, double z) {
+void Triangle::Scale(double x, double y, double z) {
 	for (auto& p : point)
-		p.Translate(x, y, z);
+		p.Scale(x, y, z);
 }
 
 void Triangle::Rotate(double x, double y, double z) {
 	for (auto& p : point)
 		p.Rotate(x, y, z);
+}
+
+void Triangle::Translate(double x, double y, double z) {
+	for (auto& p : point)
+		p.Translate(x, y, z);
 }
 
 void Triangle::Project(double near, double far, double fov, double aspect) {

@@ -12,7 +12,7 @@ private:
 		short backgroundColor = BG_BLACK, foregroundColor = FG_BLACK;
 		wchar_t pixelType = PIXEL_SOLID;
 
-		switch ((int)(light * 12)) {
+		switch ((int)(light * 13)) {
 		case 0: backgroundColor = BG_BLACK; foregroundColor = FG_BLACK; pixelType = PIXEL_SOLID; break;
 		case 1: backgroundColor = BG_BLACK; foregroundColor = FG_DARK_GRAY; pixelType = PIXEL_QUARTER; break;
 		case 2: backgroundColor = BG_BLACK; foregroundColor = FG_DARK_GRAY; pixelType = PIXEL_HALF; break;
@@ -26,6 +26,7 @@ private:
 		case 10: backgroundColor = BG_GRAY; foregroundColor = FG_WHITE; pixelType = PIXEL_HALF; break;
 		case 11: backgroundColor = BG_GRAY; foregroundColor = FG_WHITE; pixelType = PIXEL_THREEQUARTERS; break;
 		case 12: backgroundColor = BG_GRAY; foregroundColor = FG_WHITE; pixelType = PIXEL_SOLID; break;
+		case 13: backgroundColor = BG_GRAY; foregroundColor = FG_WHITE; pixelType = PIXEL_SOLID; break;
 		}
 
 		CHAR_INFO c;
@@ -63,7 +64,7 @@ public:
 		theta += deltaTime * 1.5;
 
 		for (const auto& triangle : cube) {
-			Triangle tempTriangle(triangle);
+			Triangle tempTriangle = triangle;
 
 			tempTriangle.Rotate(theta * 1.0, theta * 0.5, theta * 0.75);
 			tempTriangle.Translate(0, 0, 5);
@@ -74,7 +75,7 @@ public:
 			normal = line1.Cross(line2);
 			normal.Normalize();
 
-			if (normal.Dot(tempTriangle.point[0] - camera) < 0.0f) {
+			if (normal.Dot(tempTriangle.point[0] - camera) < 0) {
 				Vector lightSource(0, 0, -1);
 				lightSource.Normalize();
 
@@ -83,23 +84,8 @@ public:
 
 				tempTriangle.Project(0.1, 1000, 90, (double)GetScreenWidth() / GetScreenHeight());
 
-				tempTriangle.point[0].x += 1;
-				tempTriangle.point[0].y += 1;
-
-				tempTriangle.point[1].x += 1;
-				tempTriangle.point[1].y += 1;
-
-				tempTriangle.point[2].x += 1;
-				tempTriangle.point[2].y += 1;
-
-				tempTriangle.point[0].x *= GetScreenWidth() * 0.5;
-				tempTriangle.point[0].y *= GetScreenHeight() * 0.5;
-
-				tempTriangle.point[1].x *= GetScreenWidth() * 0.5;
-				tempTriangle.point[1].y *= GetScreenHeight() * 0.5;
-
-				tempTriangle.point[2].x *= GetScreenWidth() * 0.5;
-				tempTriangle.point[2].y *= GetScreenHeight() * 0.5;
+				tempTriangle.Translate(1, 1, 0);
+				tempTriangle.Scale(GetScreenWidth() * 0.5, GetScreenHeight() * 0.5, 0);
 
 				FillTriangle(
 					(int)tempTriangle.point[0].x, (int)tempTriangle.point[0].y,
