@@ -68,24 +68,13 @@ public:
 			tempTriangle.Rotate(theta * 1.0, theta * 0.5, theta * 0.75);
 			tempTriangle.Translate(0, 0, 5);
 
-			Vector normal, line1, line2;
-			line1.x = tempTriangle.point[1].x - tempTriangle.point[0].x;
-			line1.y = tempTriangle.point[1].y - tempTriangle.point[0].y;
-			line1.z = tempTriangle.point[1].z - tempTriangle.point[0].z;
-
-			line2.x = tempTriangle.point[2].x - tempTriangle.point[0].x;
-			line2.y = tempTriangle.point[2].y - tempTriangle.point[0].y;
-			line2.z = tempTriangle.point[2].z - tempTriangle.point[0].z;
-
-			normal.x = line1.y * line2.z - line1.z * line2.y;
-			normal.y = line1.z * line2.x - line1.x * line2.z;
-			normal.z = line1.x * line2.y - line1.y * line2.x;
+			Vector line1, line2, normal;
+			line1 = tempTriangle.point[1] - tempTriangle.point[0];
+			line2 = tempTriangle.point[2] - tempTriangle.point[0];
+			normal = line1.Cross(line2);
 			normal.Normalize();
 
-			if (normal.x * (tempTriangle.point[0].x - camera.x) +
-				normal.y * (tempTriangle.point[0].y - camera.y) +
-				normal.z * (tempTriangle.point[0].z - camera.z) < 0.0f)
-			{
+			if (normal.Dot(tempTriangle.point[0] - camera) < 0.0f) {
 				Vector lightSource(0, 0, -1);
 				lightSource.Normalize();
 

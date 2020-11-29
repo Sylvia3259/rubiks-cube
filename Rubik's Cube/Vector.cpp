@@ -31,7 +31,7 @@ void Vector::Normalize() {
 }
 
 double Vector::Dot(Vector v) {
-	return x*v.x + y*v.y + y*v.y;
+	return x*v.x + y*v.y + z*v.z;
 }
 
 Vector Vector::Cross(Vector v) {
