@@ -19,7 +19,6 @@ public:
 	void Translate(double x, double y, double z);
 	void Project(double near, double far, double fov, double aspect);
 
-	Vector& operator=(const Vector& v);
 	Vector operator+(const Vector& v) const;
 	Vector operator-(const Vector& v) const;
 	Vector operator+() const;
