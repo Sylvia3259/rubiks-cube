@@ -110,6 +110,30 @@ Vector Vector::operator*(const double k) const {
 	return Vector(k*x, k*y, k*z);
 }
 
+Vector& Vector::operator+=(const Vector& v) {
+	x += v.x;
+	y += v.y;
+	z += v.z;
+
+	return *this;
+}
+
+Vector& Vector::operator-=(const Vector& v) {
+	x -= v.x;
+	y -= v.y;
+	z -= v.z;
+
+	return *this;
+}
+
+Vector& Vector::operator*=(const double k) {
+	x *= k;
+	y *= k;
+	z *= k;
+
+	return *this;
+}
+
 Vector operator*(const double k, const Vector& v) {
 	return Vector(k*v.x, k*v.y, k*v.z);
 }

@@ -26,6 +26,9 @@ public:
 	Vector operator+() const;
 	Vector operator-() const;
 	Vector operator*(const double k) const;
+	Vector& operator+=(const Vector& v);
+	Vector& operator-=(const Vector& v);
+	Vector& operator*=(const double k);
 };
 
 Vector operator*(const double k, const Vector& v);

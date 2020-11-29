@@ -128,11 +128,7 @@ public:
 };
 
 int main() {
-	//RubiksEngine engine(200, 200);
-	//engine.Run();
-
-	Vector v(1, 2, 3);
-	Vector u = v * 2;
-	u = 2 * u;
+	RubiksEngine engine(200, 200);
+	engine.Run();
 	return 0;
 }
