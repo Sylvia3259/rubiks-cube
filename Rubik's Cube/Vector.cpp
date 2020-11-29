@@ -6,10 +6,10 @@ Vector::Vector() {
 	z = 0;
 }
 
-Vector::Vector(const Vector& obj) {
-	x = obj.x;
-	y = obj.y;
-	z = obj.z;
+Vector::Vector(const Vector& v) {
+	x = v.x;
+	y = v.y;
+	z = v.z;
 }
 
 Vector::Vector(double x, double y, double z) {
@@ -18,18 +18,30 @@ Vector::Vector(double x, double y, double z) {
 	this->z = z;
 }
 
+double Vector::Magnitude() {
+	return sqrt(x*x + y*y + z*z);
+}
+
 void Vector::Normalize() {
 	double length = sqrt(x*x + y*y + z*z);
 
-	x /= length; 
-	y /= length; 
+	x /= length;
+	y /= length;
 	z /= length;
 }
 
-void Vector::Translate(double x, double y, double z) {
-	this->x += x;
-	this->y += y;
-	this->z += z;
+double Vector::Dot(Vector v) {
+	return x*v.x + y*v.y + y*v.y;
+}
+
+Vector Vector::Cross(Vector v) {
+	return Vector(y*v.z - z*v.y, z*v.x - x*v.z, x*v.y - y*v.x);
+}
+
+void Vector::Scale(double x, double y, double z) {
+	this->x *= x;
+	this->y *= y;
+	this->z *= z;
 }
 
 void Vector::Rotate(double x, double y, double z) {
@@ -50,6 +62,12 @@ void Vector::Rotate(double x, double y, double z) {
 	this->z = tz;
 }
 
+void Vector::Translate(double x, double y, double z) {
+	this->x += x;
+	this->y += y;
+	this->z += z;
+}
+
 void Vector::Project(double near, double far, double fov, double aspect) {
 	fov *= 3.14159 / 180;
 
@@ -62,4 +80,36 @@ void Vector::Project(double near, double far, double fov, double aspect) {
 	x = tx;
 	y = ty;
 	z = tz;
+}
+
+Vector& Vector::operator=(const Vector& v) {
+	x = v.x;
+	y = v.y;
+	z = v.z;
+	
+	return *this;
+}
+
+Vector Vector::operator+(const Vector& v) const {
+	return Vector(x+v.x, y+v.y, z+v.z);
+}
+
+Vector Vector::operator-(const Vector& v) const {
+	return Vector(x-v.x, y-v.y, z-v.z);
+}
+
+Vector Vector::operator+() const {
+	return Vector(+x, +y, +z);
+}
+
+Vector Vector::operator-() const {
+	return Vector(-x, -y, -z);
+}
+
+Vector Vector::operator*(const double k) const {
+	return Vector(k*x, k*y, k*z);
+}
+
+Vector operator*(const double k, const Vector& v) {
+	return Vector(k*v.x, k*v.y, k*v.z);
 }
