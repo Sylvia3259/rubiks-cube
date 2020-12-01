@@ -1,12 +1,11 @@
-﻿#include "Triangle.h"
+﻿#include "Rubiks.h"
 #include "Engine.h"
 using namespace std;
 
 class RubiksEngine : public Engine {
 private:
 	double theta;
-	Triangle cube[12];
-	Vector camera;
+	Rubiks cube;
 
 	CHAR_INFO GetPixelInfo(double light) {
 		short backgroundColor = BG_BLACK, foregroundColor = FG_BLACK;
@@ -41,58 +40,48 @@ public:
 	}
 
 	void OnCreate() override {
-		cube[0] = Triangle(Vector(-1, -1, -1), Vector(-1, +1, -1), Vector(+1, +1, -1));
-		cube[1] = Triangle(Vector(-1, -1, -1), Vector(+1, +1, -1), Vector(+1, -1, -1));
 
-		cube[2] = Triangle(Vector(+1, -1, -1), Vector(+1, +1, -1), Vector(+1, +1, +1));
-		cube[3] = Triangle(Vector(+1, -1, -1), Vector(+1, +1, +1), Vector(+1, -1, +1));
-
-		cube[4] = Triangle(Vector(+1, -1, +1), Vector(+1, +1, +1), Vector(-1, +1, +1));
-		cube[5] = Triangle(Vector(+1, -1, +1), Vector(-1, +1, +1), Vector(-1, -1, +1));
-
-		cube[6] = Triangle(Vector(-1, -1, +1), Vector(-1, +1, +1), Vector(-1, +1, -1));
-		cube[7] = Triangle(Vector(-1, -1, +1), Vector(-1, +1, -1), Vector(-1, -1, -1));
-
-		cube[8] = Triangle(Vector(-1, +1, -1), Vector(-1, +1, +1), Vector(+1, +1, +1));
-		cube[9] = Triangle(Vector(-1, +1, -1), Vector(+1, +1, +1), Vector(+1, +1, -1));
-
-		cube[10] = Triangle(Vector(+1, -1, +1), Vector(-1, -1, +1), Vector(-1, -1, -1));
-		cube[11] = Triangle(Vector(+1, -1, +1), Vector(-1, -1, -1), Vector(+1, -1, -1));
 	}
 
 	void OnUpdate(double deltaTime) override {
 		theta += deltaTime * 1.5;
 
-		for (const auto& triangle : cube) {
-			Triangle tempTriangle = triangle;
+		for (int i = 0; i < 3; ++i) {
+			for (int j = 0; j < 3; ++j) {
+				for (int k = 0; k < 3; ++k) {
+					for (const auto& triangle : cube.cubes[i][j][k]) {
+						Triangle tempTriangle = triangle;
 
-			tempTriangle.Rotate(theta * 1.0, theta * 0.5, theta * 0.75);
-			tempTriangle.Translate(0, 0, 5);
+						tempTriangle.Rotate(theta * 1.0, theta * 0.5, theta * 0.75);
+						tempTriangle.Translate(0, 0, 10);
 
-			Vector line1, line2, normal;
-			line1 = tempTriangle.points[1] - tempTriangle.points[0];
-			line2 = tempTriangle.points[2] - tempTriangle.points[0];
-			normal = line1.Cross(line2);
-			normal.Normalize();
+						Vector line1, line2, normal;
+						line1 = tempTriangle.points[1] - tempTriangle.points[0];
+						line2 = tempTriangle.points[2] - tempTriangle.points[0];
+						normal = line1.Cross(line2);
+						normal.Normalize();
 
-			if (normal.Dot(tempTriangle.points[0] - camera) < 0) {
-				Vector lightSource(0, 0, -1);
-				lightSource.Normalize();
+						if (normal.Dot(tempTriangle.points[0]) < 0) {
+							Vector lightSource(0, 0, -1);
+							lightSource.Normalize();
 
-				double light = normal.x * lightSource.x + normal.y * lightSource.y + normal.z * lightSource.z;
-				CHAR_INFO pixel = GetPixelInfo(light);
+							//double light = normal.Dot(lightSource);
+							//CHAR_INFO pixel = GetPixelInfo(light);
 
-				tempTriangle.Project(0.1, 1000, 90, (double)GetScreenWidth() / GetScreenHeight());
+							tempTriangle.Project(0.1, 1000, 90, (double)GetScreenWidth() / GetScreenHeight());
 
-				tempTriangle.Translate(1, 1, 0);
-				tempTriangle.Scale(GetScreenWidth() * 0.5, GetScreenHeight() * 0.5, 0);
+							tempTriangle.Translate(1, 1, 0);
+							tempTriangle.Scale(GetScreenWidth() * 0.5, GetScreenHeight() * 0.5, 0);
 
-				FillTriangle(
-					(int)tempTriangle.points[0].x, (int)tempTriangle.points[0].y,
-					(int)tempTriangle.points[1].x, (int)tempTriangle.points[1].y,
-					(int)tempTriangle.points[2].x, (int)tempTriangle.points[2].y,
-					pixel.Char.UnicodeChar, pixel.Attributes
-				);
+							FillTriangle(
+								(int)tempTriangle.points[0].x, (int)tempTriangle.points[0].y,
+								(int)tempTriangle.points[1].x, (int)tempTriangle.points[1].y,
+								(int)tempTriangle.points[2].x, (int)tempTriangle.points[2].y,
+								PIXEL_HALF, tempTriangle.color
+							);
+						}
+					}
+				}
 			}
 		}
 	}

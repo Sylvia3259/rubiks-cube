@@ -1,5 +1,6 @@
 #pragma once
 #include "Triangle.h"
+#include "constants.h"
 
 class Rubiks {
 public:
