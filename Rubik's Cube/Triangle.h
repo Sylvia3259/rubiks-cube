@@ -1,10 +1,11 @@
 #pragma once
+#include <vector>
 #include "Vector.h"
 
 class Triangle {
 public:
 	short color;
-	Vector points[3];
+	std::vector<Vector> points;
 
 	Triangle();
 	Triangle(const Vector& v1, const Vector& v2, const Vector& v3);

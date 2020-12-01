@@ -2,73 +2,38 @@
 
 Rubiks::Rubiks() {
 	const double coord[3] = { -2, 0, +2 };
-	for (int i = 0; i < 3; ++i) {
-		for (int j = 0; j < 3; ++j) {
-			for (int k = 0; k < 3; ++k) {
-				const double x = coord[i], y = coord[j], z = coord[k];
+	for (int i = 0; i < 3; ++i)
+		for (int j = 0; j < 3; ++j)
+			for (int k = 0; k < 3; ++k)
+				cubes[i][j][k] = Cube(coord[i], coord[j], coord[k]);
 
-				cubeCenters[i][j][k] = Vector(x, y, z);
+	for (int i = 0; i < 3; ++i)
+		for (int j = 0; j < 3; ++j)
+			for (int k = 0; k < 2; ++k)
+				cubes[0][i][j].polygons[k].color = FG_DARK_RED | BG_DARK_YELLOW;
 
-				cubes[i][j][k][0] = Triangle(Vector(x-1, y-1, z+1), Vector(x-1, y+1, z+1), Vector(x-1, y+1, z-1));
-				cubes[i][j][k][1] = Triangle(Vector(x-1, y-1, z+1), Vector(x-1, y+1, z-1), Vector(x-1, y-1, z-1));
+	for (int i = 0; i < 3; ++i)
+		for (int j = 0; j < 3; ++j)
+			for (int k = 2; k < 4; ++k)
+				cubes[2][i][j].polygons[k].color = FG_RED | BG_DARK_RED;
 
-				cubes[i][j][k][2] = Triangle(Vector(x+1, y-1, z-1), Vector(x+1, y+1, z-1), Vector(x+1, y+1, z+1));
-				cubes[i][j][k][3] = Triangle(Vector(x+1, y-1, z-1), Vector(x+1, y+1, z+1), Vector(x+1, y-1, z+1));
+	for (int i = 0; i < 3; ++i)
+		for (int j = 0; j < 3; ++j)
+			for (int k = 4; k < 6; ++k)
+				cubes[i][0][j].polygons[k].color = FG_BLUE | BG_BLUE;
 
-				cubes[i][j][k][4] = Triangle(Vector(x+1, y-1, z+1), Vector(x-1, y-1, z+1), Vector(x-1, y-1, z-1));
-				cubes[i][j][k][5] = Triangle(Vector(x+1, y-1, z+1), Vector(x-1, y-1, z-1), Vector(x+1, y-1, z-1));
+	for (int i = 0; i < 3; ++i)
+		for (int j = 0; j < 3; ++j)
+			for (int k = 6; k < 8; ++k)
+				cubes[i][2][j].polygons[k].color = FG_GREEN | BG_GREEN;
 
-				cubes[i][j][k][6] = Triangle(Vector(x-1, y+1, z-1), Vector(x-1, y+1, z+1), Vector(x+1, y+1, z+1));
-				cubes[i][j][k][7] = Triangle(Vector(x-1, y+1, z-1), Vector(x+1, y+1, z+1), Vector(x+1, y+1, z-1));
+	for (int i = 0; i < 3; ++i)
+		for (int j = 0; j < 3; ++j)
+			for (int k = 8; k < 10; ++k)
+				cubes[i][j][0].polygons[k].color = FG_WHITE | BG_WHITE;
 
-				cubes[i][j][k][8] = Triangle(Vector(x-1, y-1, z-1), Vector(x-1, y+1, z-1), Vector(x+1, y+1, z-1));
-				cubes[i][j][k][9] = Triangle(Vector(x-1, y-1, z-1), Vector(x+1, y+1, z-1), Vector(x+1, y-1, z-1));
-
-				cubes[i][j][k][10] = Triangle(Vector(x+1, y-1, z+1), Vector(x+1, y+1, z+1), Vector(x-1, y+1, z+1));
-				cubes[i][j][k][11] = Triangle(Vector(x+1, y-1, z+1), Vector(x-1, y+1, z+1), Vector(x-1, y-1, z+1));
-			}
-		}
-	}
-
-	for (int i = 0; i < 3; ++i) {
-		for (int j = 0; j < 3; ++j) {
-			cubes[0][i][j][0].color = FG_DARK_RED | BG_DARK_YELLOW;
-			cubes[0][i][j][1].color = FG_DARK_RED | BG_DARK_YELLOW;
-		}
-	}
-
-	for (int i = 0; i < 3; ++i) {
-		for (int j = 0; j < 3; ++j) {
-			cubes[2][i][j][2].color = FG_RED | BG_DARK_RED;
-			cubes[2][i][j][3].color = FG_RED | BG_DARK_RED;
-		}
-	}
-
-	for (int i = 0; i < 3; ++i) {
-		for (int j = 0; j < 3; ++j) {
-			cubes[i][0][j][4].color = FG_BLUE | BG_BLUE;
-			cubes[i][0][j][5].color = FG_BLUE | BG_BLUE;
-		}
-	}
-
-	for (int i = 0; i < 3; ++i) {
-		for (int j = 0; j < 3; ++j) {
-			cubes[i][2][j][6].color = FG_GREEN | BG_GREEN;
-			cubes[i][2][j][7].color = FG_GREEN | BG_GREEN;
-		}
-	}
-
-	for (int i = 0; i < 3; ++i) {
-		for (int j = 0; j < 3; ++j) {
-			cubes[i][j][0][8].color = FG_WHITE | BG_WHITE;
-			cubes[i][j][0][9].color = FG_WHITE | BG_WHITE;
-		}
-	}
-
-	for (int i = 0; i < 3; ++i) {
-		for (int j = 0; j < 3; ++j) {
-			cubes[i][j][2][10].color = FG_YELLOW | BG_DARK_YELLOW;
-			cubes[i][j][2][11].color = FG_YELLOW | BG_DARK_YELLOW;
-		}
-	}
+	for (int i = 0; i < 3; ++i)
+		for (int j = 0; j < 3; ++j)
+			for (int k = 10; k < 12; ++k)
+				cubes[i][j][2].polygons[k].color = FG_YELLOW | BG_DARK_YELLOW;
 }

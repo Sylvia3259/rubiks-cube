@@ -6,10 +6,7 @@ Triangle::Triangle() {
 
 Triangle::Triangle(const Vector& v1, const Vector& v2, const Vector& v3) {
 	color = 0;
-
-	points[0] = v1;
-	points[1] = v2;
-	points[2] = v3;
+	points = { v1, v2, v3 };
 }
 
 void Triangle::Scale(double x, double y, double z) {

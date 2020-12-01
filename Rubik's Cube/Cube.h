@@ -1,11 +1,10 @@
 #pragma once
-#include "Vector.h"
+#include "Triangle.h"
 
 class Cube {
-private:
-	Vector vertex[2][2][2];
 public:
+	std::vector<Triangle> polygons;
+
 	Cube();
 	Cube(double x, double y, double z);
-	void Rotate(double x, double y, double z);
 };
