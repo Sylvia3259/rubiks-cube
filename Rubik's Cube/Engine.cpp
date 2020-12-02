@@ -109,174 +109,40 @@ void Engine::DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, wchar_
 }
 
 void Engine::FillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, wchar_t pixel, short color) {
-	auto SWAP = [](int& x, int& y) {
-		int t = x;
-		x = y;
-		y = t;
-	};
-	auto drawline = [&](int sx, int ex, int ny) {
-		for (int i = sx; i <= ex; i++)
-			DrawPixel(i, ny, pixel, color);
-	};
-
-	int t1x, t2x, y, minx, maxx, t1xp, t2xp;
-	bool changed1 = false;
-	bool changed2 = false;
-	int signx1, signx2, dx1, dy1, dx2, dy2;
-	int e1, e2;
-
-	if (y1 > y2) {
-		SWAP(y1, y2);
-		SWAP(x1, x2);
-	}
 	if (y1 > y3) {
-		SWAP(y1, y3);
-		SWAP(x1, x3);
+		std::swap(x1, x3);
+		std::swap(y1, y3);
+	}
+	if (y1 > y2) {
+		std::swap(x1, x2);
+		std::swap(y1, y2);
 	}
 	if (y2 > y3) {
-		SWAP(y2, y3);
-		SWAP(x2, x3);
+		std::swap(x2, x3);
+		std::swap(y2, y3);
 	}
 
-	t1x = t2x = x1; y = y1;
-	dx1 = (int)(x2 - x1);
-	if (dx1 < 0) {
-		dx1 = -dx1;
-		signx1 = -1;
-	}
-	else signx1 = 1;
-	dy1 = (int)(y2 - y1);
+	int x4 = (int)(x1 + ((float)(y2 - y1) / (y3 - y1)) * (x3 - x1));
 
-	dx2 = (int)(x3 - x1);
-	if (dx2 < 0) {
-		dx2 = -dx2;
-		signx2 = -1;
-	}
-	else signx2 = 1;
-	dy2 = (int)(y3 - y1);
+	float cx1 = (float)x1;
+	float cx2 = (float)x1;
+	float cx3 = (float)x3;
+	float cx4 = (float)x3;
 
-	if (dy1 > dx1) {
-		SWAP(dx1, dy1);
-		changed1 = true;
-	}
-	if (dy2 > dx2) {
-		SWAP(dy2, dx2);
-		changed2 = true;
+	float dx1 = (float)(x2 - x1) / (y2 - y1);
+	float dx2 = (float)(x4 - x1) / (y2 - y1);
+	float dx3 = (float)(x3 - x2) / (y3 - y2);
+	float dx4 = (float)(x3 - x4) / (y3 - y2);
+
+	for (int y = y1; y <= y2; ++y) {
+		DrawLine((int)cx1, y, (int)cx2, y, pixel, color);
+		cx1 += dx1;
+		cx2 += dx2;
 	}
 
-	e2 = (int)(dx2 >> 1);
-	if (y1 == y2) goto next;
-	e1 = (int)(dx1 >> 1);
-
-	for (int i = 0; i < dx1;) {
-		t1xp = 0; t2xp = 0;
-		if (t1x < t2x) {
-			minx = t1x;
-			maxx = t2x;
-		}
-		else {
-			minx = t2x;
-			maxx = t1x;
-		}
-		while (i < dx1) {
-			i++;
-			e1 += dy1;
-			while (e1 >= dx1) {
-				e1 -= dx1;
-				if (changed1) t1xp = signx1;
-				else goto next1;
-			}
-			if (changed1) break;
-			else t1x += signx1;
-		}
-	next1:
-		while (1) {
-			e2 += dy2;
-			while (e2 >= dx2) {
-				e2 -= dx2;
-				if (changed2) t2xp = signx2;
-				else goto next2;
-			}
-			if (changed2) break;
-			else t2x += signx2;
-		}
-	next2:
-		if (minx > t1x) minx = t1x;
-		if (minx > t2x) minx = t2x;
-		if (maxx < t1x) maxx = t1x;
-		if (maxx < t2x) maxx = t2x;
-		drawline(minx, maxx, y);
-		if (!changed1) t1x += signx1;
-		t1x += t1xp;
-		if (!changed2) t2x += signx2;
-		t2x += t2xp;
-		y += 1;
-		if (y == y2) break;
-	}
-next:
-	dx1 = (int)(x3 - x2);
-	if (dx1 < 0) {
-		dx1 = -dx1;
-		signx1 = -1;
-	}
-	else signx1 = 1;
-	dy1 = (int)(y3 - y2);
-	t1x = x2;
-
-	if (dy1 > dx1) {
-		SWAP(dy1, dx1);
-		changed1 = true;
-	}
-	else changed1 = false;
-
-	e1 = (int)(dx1 >> 1);
-
-	for (int i = 0; i <= dx1; i++) {
-		t1xp = 0; t2xp = 0;
-		if (t1x < t2x) {
-			minx = t1x;
-			maxx = t2x;
-		}
-		else {
-			minx = t2x;
-			maxx = t1x;
-		}
-		while (i < dx1) {
-			e1 += dy1;
-			while (e1 >= dx1) {
-				e1 -= dx1;
-				if (changed1) {
-					t1xp = signx1;
-					break;
-				}
-				else goto next3;
-			}
-			if (changed1) break;
-			else t1x += signx1;
-			if (i < dx1) i++;
-		}
-	next3:
-		while (t2x != x3) {
-			e2 += dy2;
-			while (e2 >= dx2) {
-				e2 -= dx2;
-				if (changed2) t2xp = signx2;
-				else goto next4;
-			}
-			if (changed2) break;
-			else t2x += signx2;
-		}
-	next4:
-		if (minx > t1x) minx = t1x;
-		if (minx > t2x) minx = t2x;
-		if (maxx < t1x) maxx = t1x;
-		if (maxx < t2x) maxx = t2x;
-		drawline(minx, maxx, y);
-		if (!changed1) t1x += signx1;
-		t1x += t1xp;
-		if (!changed2) t2x += signx2;
-		t2x += t2xp;
-		y += 1;
-		if (y > y3) return;
+	for (int y = y3; y >= y2; --y) {
+		DrawLine((int)cx3, y, (int)cx4, y, pixel, color);
+		cx3 -= dx3;
+		cx4 -= dx4;
 	}
 }
