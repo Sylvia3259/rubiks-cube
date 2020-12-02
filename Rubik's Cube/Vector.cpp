@@ -39,6 +39,10 @@ void Vector::Scale(double x, double y, double z) {
 }
 
 void Vector::Rotate(double x, double y, double z) {
+	x *= 3.14159 / 180;
+	y *= 3.14159 / 180;
+	z *= 3.14159 / 180;
+
 	double tx, ty, tz;
 
 	tx = this->x * (cos(y) * cos(z))

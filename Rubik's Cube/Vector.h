@@ -3,9 +3,7 @@
 
 class Vector {
 public:
-	double x;
-	double y;
-	double z;
+	double x, y, z;
 
 	Vector();
 	Vector(double x, double y, double z);

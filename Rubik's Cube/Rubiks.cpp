@@ -37,3 +37,94 @@ Rubiks::Rubiks() {
 			for (int k = 10; k < 12; ++k)
 				cubes[i][j][2].polygons[k].color = FG_YELLOW | BG_DARK_YELLOW;
 }
+
+void Rubiks::Control(std::string command) {
+	controlQueue.push(command);
+}
+
+void Rubiks::Update(double deltaTime) {
+	static double theta = 0;
+
+	if (!controlQueue.empty()) {
+		std::string command = controlQueue.front();
+
+		char symbol = command[0];
+		int index = command[1] - '0';
+		char direction = command[2];
+
+		double rotation = std::min(deltaTime * 360, 90 - abs(theta));
+		if (direction == '-') rotation = -rotation;
+
+		if (symbol == 'i')
+			for (int i = 0; i < 3; ++i)
+				for (int j = 0; j < 3; ++j)
+					cubes[index][i][j].Rotate(rotation, 0, 0);
+		else if (symbol == 'j')
+			for (int i = 0; i < 3; ++i)
+				for (int j = 0; j < 3; ++j)
+					cubes[i][index][j].Rotate(0, rotation, 0);
+		else if (symbol == 'k')
+			for (int i = 0; i < 3; ++i)
+				for (int j = 0; j < 3; ++j)
+					cubes[i][j][index].Rotate(0, 0, rotation);
+
+		theta += rotation;
+		if (abs(theta) >= 90) {
+			Rubiks tempCube = *this;
+			if (symbol == 'i') {
+				if (direction == '+')
+					for (int i = 0; i < 3; ++i)
+						for (int j = 0; j < 3; ++j)
+							cubes[index][i][j] = tempCube.cubes[index][j][2 - i];
+				else if (direction == '-')
+					for (int i = 0; i < 3; ++i)
+						for (int j = 0; j < 3; ++j)
+							cubes[index][i][j] = tempCube.cubes[index][2 - j][i];
+			}
+			else if (symbol == 'j') {
+				if (direction == '+')
+					for (int i = 0; i < 3; ++i)
+						for (int j = 0; j < 3; ++j)
+							cubes[i][index][j] = tempCube.cubes[2 - j][index][i];
+				else if (direction == '-')
+					for (int i = 0; i < 3; ++i)
+						for (int j = 0; j < 3; ++j)
+							cubes[i][index][j] = tempCube.cubes[j][index][2 - i];
+			}
+			else if (symbol == 'k') {
+				if (direction == '+')
+					for (int i = 0; i < 3; ++i)
+						for (int j = 0; j < 3; ++j)
+							cubes[i][j][index] = tempCube.cubes[j][2 - i][index];
+				else if (direction == '-')
+					for (int i = 0; i < 3; ++i)
+						for (int j = 0; j < 3; ++j)
+							cubes[i][j][index] = tempCube.cubes[2 - j][i][index];
+			}
+
+			controlQueue.pop();
+			theta = 0;
+		}
+	}
+}
+
+void Rubiks::Scale(double x, double y, double z) {
+	for (int i = 0; i < 3; ++i)
+		for (int j = 0; j < 3; ++j)
+			for (int k = 0; k < 3; ++k)
+				cubes[i][j][k].Scale(x, y, z);
+}
+
+void Rubiks::Rotate(double x, double y, double z) {
+	for (int i = 0; i < 3; ++i)
+		for (int j = 0; j < 3; ++j)
+			for (int k = 0; k < 3; ++k)
+				cubes[i][j][k].Rotate(x, y, z);
+}
+
+void Rubiks::Translate(double x, double y, double z) {
+	for (int i = 0; i < 3; ++i)
+		for (int j = 0; j < 3; ++j)
+			for (int k = 0; k < 3; ++k)
+				cubes[i][j][k].Translate(x, y, z);
+}
