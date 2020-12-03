@@ -1,4 +1,6 @@
 #pragma once
+#include <vector>
+#include <string>
 
 const enum PIXEL {
 	PIXEL_SOLID = 0x2588,
@@ -42,7 +44,78 @@ const enum COLOR {
 	BG_WHITE = 0x00F0,
 };
 
-constexpr int KeyDown = 2;
-constexpr int KeyPressed = 1;
-constexpr int KeyUp = -1;
-constexpr int KeyUnpressed = 0;
+constexpr int keyDown = 2;
+constexpr int keyPressed = 1;
+constexpr int keyUp = -1;
+constexpr int keyUnpressed = 0;
+
+const std::vector<std::string> commandList[4][3] = {
+	{
+		{
+			"i1+", "k1+", "k1-", "i1-",
+			"k2+", "k2-", "i0+", "i0-",
+			"i2+", "i2-", "k0+", "k0-",
+		},
+		{
+			"i1+", "j1+", "j1-", "i1-",
+			"j2+", "j2-", "i0+", "i0-",
+			"i2+", "i2-", "j0+", "j0-",
+		},
+		{
+			"i1+", "k1-", "k1+", "i1-",
+			"k0-", "k0+", "i0+", "i0-",
+			"i2+", "i2-", "k2-", "k2+",
+		},
+	},
+	{
+		{
+			"k1+", "i1-", "i1+", "k1-",
+			"i0-", "i0+", "k0+", "k0-",
+			"k2+", "k2-", "i2-", "i2+",
+		},
+		{
+			"k1+", "j1+", "j1-", "k1-",
+			"j2+", "j2-", "k0+", "k0-",
+			"k2+", "k2-", "j0+", "j0-",
+		},
+		{
+			"k1+", "i1+", "i1-", "k1-",
+			"i2+", "i2-", "k0+", "k0-",
+			"k2+", "k2-", "i0+", "i0-",
+		},
+	},
+	{
+		{
+			"i1-", "k1-", "k1+", "i1+",
+			"k0-", "k0+", "i2-", "i2+",
+			"i0-", "i0+", "k2-", "k2+",
+		},
+		{
+			"i1-", "j1+", "j1-", "i1+",
+			"j2+", "j2-", "i2-", "i2+",
+			"i0-", "i0+", "j0+", "j0-",
+		},
+		{
+			"i1-", "k1+", "k1-", "i1+",
+			"k2+", "k2-", "i2-", "i2+",
+			"i0-", "i0+", "k0+", "k0-",
+		},
+	},
+	{
+		{
+			"k1-", "i1+", "i1-", "k1+",
+			"i2+", "i2-", "k2-", "k2+",
+			"k0-", "k0+", "i0+", "i0-",
+		},
+		{
+			"k1-", "j1+", "j1-", "k1+",
+			"j2+", "j2-", "k2-", "k2+",
+			"k0-", "k0+", "j0+", "j0-",
+		},
+		{
+			"k1-", "i1-", "i1+", "k1+",
+			"i0-", "i0+", "k2-", "k2+",
+			"k0-", "k0+", "i2-", "i2+",
+		},
+	},
+};

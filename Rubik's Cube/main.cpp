@@ -11,102 +11,38 @@ private:
 	Input inputManager;
 
 	vector<string> GetCommandList() {
-		vector<string> commandList;
-
 		if (315 < thetaY || thetaY <= 45) {
-			if (thetaX <= -45) {
-				commandList = {
-					"i1+", "k1+", "k1-", "i1-",
-					"k2+", "k2-", "i0+", "i0-",
-					"i2+", "i2-", "k0+", "k0-",
-				};
-			}
-			else if (thetaX > 45) {
-				commandList = {
-					"i1+", "k1-", "k1+", "i1-",
-					"k0-", "k0+", "i0+", "i0-",
-					"i2+", "i2-", "k2-", "k2+",
-				};
-			}
-			else {
-				commandList = { 
-					"i1+", "j1+", "j1-", "i1-", 
-					"j2+", "j2-", "i0+", "i0-", 
-					"i2+", "i2-", "j0+", "j0-",
-				};
-			}
+			if (thetaX <= -45)
+				return commandList[0][0];
+			else if (-45 < thetaX && thetaX <= 45)
+				return commandList[0][1];
+			else if (45 < thetaX)
+				return commandList[0][2];
 		}
 		else if (45 < thetaY && thetaY <= 135) {
-			if (thetaX <= -45) {
-				commandList = {
-					"k1+", "i1-", "i1+", "k1-",
-					"i0-", "i0+", "k0+", "k0-",
-					"k2+", "k2-", "i2-", "i2+",
-				};
-			}
-			else if (thetaX > 45) {
-				commandList = {
-					"k1+", "i1+", "i1-", "k1-",
-					"i2+", "i2-", "k0+", "k0-",
-					"k2+", "k2-", "i0+", "i0-",
-				};
-			}
-			else {
-				commandList = {
-					"k1+", "j1+", "j1-", "k1-",
-					"j2+", "j2-", "k0+", "k0-",
-					"k2+", "k2-", "j0+", "j0-",
-				};
-			}
+			if (thetaX <= -45)
+				return commandList[1][0];
+			else if (-45 < thetaX && thetaX <= 45)
+				return commandList[1][1];
+			else if (45 < thetaX)
+				return commandList[1][2];
 		}
 		else if (135 < thetaY && thetaY <= 225) {
-			if (thetaX <= -45) {
-				commandList = {
-					"i1-", "k1-", "k1+", "i1+",
-					"k0-", "k0+", "i2-", "i2+",
-					"i0-", "i0+", "k2-", "k2+",
-				};
-			}
-			else if (thetaX > 45) {
-				commandList = {
-					"i1-", "k1+", "k1-", "i1+",
-					"k2+", "k2-", "i2-", "i2+",
-					"i0-", "i0+", "k0+", "k0-",
-				};
-			}
-			else {
-				commandList = {
-					"i1-", "j1+", "j1-", "i1+",
-					"j2+", "j2-", "i2-", "i2+",
-					"i0-", "i0+", "j0+", "j0-",
-				};
-			}
+			if (thetaX <= -45)
+				return commandList[2][0];
+			else if (-45 < thetaX && thetaX <= 45)
+				return commandList[2][1];
+			else if (45 < thetaX)
+				return commandList[2][2];
 		}
 		else if (225 < thetaY && thetaY <= 315) {
-			if (thetaX <= -45) {
-				commandList = {
-					"k1-", "i1+", "i1-", "k1+",
-					"i2+", "i2-", "k2-", "k2+",
-					"k0-", "k0+", "i0+", "i0-",
-				};
-			}
-			else if (thetaX > 45) {
-				commandList = {
-					"k1-", "i1-", "i1+", "k1+",
-					"i0-", "i0+", "k2-", "k2+",
-					"k0-", "k0+", "i2-", "i2+",
-				};
-			}
-			else {
-				commandList = {
-					"k1-", "j1+", "j1-", "k1+",
-					"j2+", "j2-", "k2-", "k2+",
-					"k0-", "k0+", "j0+", "j0-",
-				};
-			}
+			if (thetaX <= -45)
+				return commandList[3][0];
+			else if (-45 < thetaX && thetaX <= 45)
+				return commandList[3][1];
+			else if (45 < thetaX)
+				return commandList[3][2];
 		}
-
-		return commandList;
 	}
 
 public:
@@ -138,57 +74,57 @@ public:
 		//유저 입력 처리
 		inputManager.UpdateKeyStates();
 
-		if (inputManager.GetKeyState(VK_UP) >= KeyPressed) {
+		if (inputManager.GetKeyState(VK_UP) >= keyPressed) {
 			thetaX += deltaTime * 120;
 			thetaX = MIN(thetaX, +60);
 		}
-		if (inputManager.GetKeyState(VK_DOWN) >= KeyPressed) {
+		if (inputManager.GetKeyState(VK_DOWN) >= keyPressed) {
 			thetaX -= deltaTime * 120;
 			thetaX = MAX(thetaX, -60);
 		}
-		if (inputManager.GetKeyState(VK_LEFT) >= KeyPressed) {
+		if (inputManager.GetKeyState(VK_LEFT) >= keyPressed) {
 			thetaY -= deltaTime * 120;
 			if (thetaY <= 0) thetaY += 360;
 		}
-		if (inputManager.GetKeyState(VK_RIGHT) >= KeyPressed) {
+		if (inputManager.GetKeyState(VK_RIGHT) >= keyPressed) {
 			thetaY += deltaTime * 120;
 			if (thetaY >= 360) thetaY -= 360;
 		}
 
 		vector<string> commandList = GetCommandList();
 
-		if (inputManager.GetKeyState(VK_NUMPAD5) == KeyPressed) {
-			if (inputManager.GetKeyState(VK_NUMPAD2) == KeyDown)
+		if (inputManager.GetKeyState(VK_NUMPAD5) == keyPressed) {
+			if (inputManager.GetKeyState(VK_NUMPAD2) == keyDown)
 				rubiksCube.Control(commandList[0]);
-			else if (inputManager.GetKeyState(VK_NUMPAD4) == KeyDown)
+			else if (inputManager.GetKeyState(VK_NUMPAD4) == keyDown)
 				rubiksCube.Control(commandList[1]);
-			else if (inputManager.GetKeyState(VK_NUMPAD6) == KeyDown)
+			else if (inputManager.GetKeyState(VK_NUMPAD6) == keyDown)
 				rubiksCube.Control(commandList[2]);
-			else if (inputManager.GetKeyState(VK_NUMPAD8) == KeyDown)
+			else if (inputManager.GetKeyState(VK_NUMPAD8) == keyDown)
 				rubiksCube.Control(commandList[3]);
 		}
-		else if (inputManager.GetKeyState(VK_NUMPAD2) == KeyPressed) {
-			if (inputManager.GetKeyState(VK_NUMPAD1) == KeyDown)
+		else if (inputManager.GetKeyState(VK_NUMPAD2) == keyPressed) {
+			if (inputManager.GetKeyState(VK_NUMPAD1) == keyDown)
 				rubiksCube.Control(commandList[4]);
-			else if (inputManager.GetKeyState(VK_NUMPAD3) == KeyDown)
+			else if (inputManager.GetKeyState(VK_NUMPAD3) == keyDown)
 				rubiksCube.Control(commandList[5]);
 		}
-		else if (inputManager.GetKeyState(VK_NUMPAD4) == KeyPressed) {
-			if (inputManager.GetKeyState(VK_NUMPAD1) == KeyDown)
+		else if (inputManager.GetKeyState(VK_NUMPAD4) == keyPressed) {
+			if (inputManager.GetKeyState(VK_NUMPAD1) == keyDown)
 				rubiksCube.Control(commandList[6]);
-			else if (inputManager.GetKeyState(VK_NUMPAD7) == KeyDown)
+			else if (inputManager.GetKeyState(VK_NUMPAD7) == keyDown)
 				rubiksCube.Control(commandList[7]);
 		}
-		else if (inputManager.GetKeyState(VK_NUMPAD6) == KeyPressed) {
-			if (inputManager.GetKeyState(VK_NUMPAD3) == KeyDown)
+		else if (inputManager.GetKeyState(VK_NUMPAD6) == keyPressed) {
+			if (inputManager.GetKeyState(VK_NUMPAD3) == keyDown)
 				rubiksCube.Control(commandList[8]);
-			else if (inputManager.GetKeyState(VK_NUMPAD9) == KeyDown)
+			else if (inputManager.GetKeyState(VK_NUMPAD9) == keyDown)
 				rubiksCube.Control(commandList[9]);
 		}
-		else if (inputManager.GetKeyState(VK_NUMPAD8) == KeyPressed) {
-			if (inputManager.GetKeyState(VK_NUMPAD7) == KeyDown)
+		else if (inputManager.GetKeyState(VK_NUMPAD8) == keyPressed) {
+			if (inputManager.GetKeyState(VK_NUMPAD7) == keyDown)
 				rubiksCube.Control(commandList[10]);
-			else if (inputManager.GetKeyState(VK_NUMPAD9) == KeyDown)
+			else if (inputManager.GetKeyState(VK_NUMPAD9) == keyDown)
 				rubiksCube.Control(commandList[11]);
 		}
 
