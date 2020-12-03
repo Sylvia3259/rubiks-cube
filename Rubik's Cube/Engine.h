@@ -1,7 +1,7 @@
 #pragma once
-#include <algorithm>
 #include <cmath>
 #include <Windows.h>
+#include "macros.h"
 
 class Engine {
 private:

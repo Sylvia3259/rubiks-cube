@@ -45,6 +45,7 @@ private:
 			else if (45 < thetaX)
 				return commandLists[3][2];
 		}
+		return commandLists[0][0];
 	}
 
 public:
@@ -54,7 +55,7 @@ public:
 	}
 
 	void OnCreate() override {
-		srand(GetTickCount64());
+		srand((unsigned int)GetTickCount64());
 
 		const string symbols = "ijk";
 		const string indexes = "012";
@@ -182,7 +183,10 @@ public:
 };
 
 int main() {
+	SetConsoleTitle(L"Rubik's Cube");
+
 	RubiksEngine engine(200, 200);
 	engine.Run();
+
 	return 0;
 }

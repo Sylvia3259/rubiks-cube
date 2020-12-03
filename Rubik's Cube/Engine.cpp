@@ -4,19 +4,14 @@ Engine::Engine(short width, short height) {
 	isRunning = false;
 
 	consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-
 	CONSOLE_FONT_INFOEX font = { sizeof(font), 0, { 4, 4 }, FF_DONTCARE, FW_NORMAL, L"" };
 	SetCurrentConsoleFontEx(consoleHandle, FALSE, &font);
-
 	CONSOLE_CURSOR_INFO cursorInfo = { 1, FALSE };
 	SetConsoleCursorInfo(consoleHandle, &cursorInfo);
-
 	consoleSize = { width, height };
 	SetConsoleScreenBufferSize(consoleHandle, consoleSize);
-
 	console = { 0, 0, width - 1, height - 1 };
 	SetConsoleWindowInfo(consoleHandle, TRUE, &console);
-
 	consoleBuffer = new CHAR_INFO[(long long)width * height];
 }
 
@@ -65,8 +60,8 @@ void Engine::DrawLine(int x1, int y1, int x2, int y2, wchar_t pixel, short color
 	int iy = (dy > 0) - (dy < 0);
 	int err;
 
-	dx = abs(dx) << 1;
-	dy = abs(dy) << 1;
+	dx = ABS(dx) << 1;
+	dy = ABS(dy) << 1;
 
 	DrawPixel(x1, y1, pixel, color);
 
@@ -110,16 +105,16 @@ void Engine::DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, wchar_
 
 void Engine::FillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, wchar_t pixel, short color) {
 	if (y1 > y3) {
-		std::swap(x1, x3);
-		std::swap(y1, y3);
+		SWAP(int, x1, x3);
+		SWAP(int, y1, y3);
 	}
 	if (y1 > y2) {
-		std::swap(x1, x2);
-		std::swap(y1, y2);
+		SWAP(int, x1, x2);
+		SWAP(int, y1, y2);
 	}
 	if (y2 > y3) {
-		std::swap(x2, x3);
-		std::swap(y2, y3);
+		SWAP(int, x2, x3);
+		SWAP(int, y2, y3);
 	}
 
 	int x4 = (int)(x1 + ((float)(y2 - y1) / (y3 - y1)) * (x3 - x1));
