@@ -49,7 +49,7 @@ constexpr int keyPressed = 1;
 constexpr int keyUp = -1;
 constexpr int keyUnpressed = 0;
 
-const std::vector<std::string> commandList[4][3] = {
+const std::vector<std::string> commandLists[4][3] = {
 	{
 		{
 			"i1+", "k1+", "k1-", "i1-",

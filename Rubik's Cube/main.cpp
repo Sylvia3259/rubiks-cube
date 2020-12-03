@@ -13,35 +13,35 @@ private:
 	vector<string> GetCommandList() {
 		if (315 < thetaY || thetaY <= 45) {
 			if (thetaX <= -45)
-				return commandList[0][0];
+				return commandLists[0][0];
 			else if (-45 < thetaX && thetaX <= 45)
-				return commandList[0][1];
+				return commandLists[0][1];
 			else if (45 < thetaX)
-				return commandList[0][2];
+				return commandLists[0][2];
 		}
 		else if (45 < thetaY && thetaY <= 135) {
 			if (thetaX <= -45)
-				return commandList[1][0];
+				return commandLists[1][0];
 			else if (-45 < thetaX && thetaX <= 45)
-				return commandList[1][1];
+				return commandLists[1][1];
 			else if (45 < thetaX)
-				return commandList[1][2];
+				return commandLists[1][2];
 		}
 		else if (135 < thetaY && thetaY <= 225) {
 			if (thetaX <= -45)
-				return commandList[2][0];
+				return commandLists[2][0];
 			else if (-45 < thetaX && thetaX <= 45)
-				return commandList[2][1];
+				return commandLists[2][1];
 			else if (45 < thetaX)
-				return commandList[2][2];
+				return commandLists[2][2];
 		}
 		else if (225 < thetaY && thetaY <= 315) {
 			if (thetaX <= -45)
-				return commandList[3][0];
+				return commandLists[3][0];
 			else if (-45 < thetaX && thetaX <= 45)
-				return commandList[3][1];
+				return commandLists[3][1];
 			else if (45 < thetaX)
-				return commandList[3][2];
+				return commandLists[3][2];
 		}
 	}
 
