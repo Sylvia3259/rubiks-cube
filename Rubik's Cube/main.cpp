@@ -26,21 +26,56 @@ public:
 		//유저 입력 처리
 		inputManager.UpdateKeyStates();
 
-		if (inputManager.GetKeyState('W')) {
+		if (inputManager.GetKeyState('W') >= KeyPressed) {
 			thetaX -= deltaTime * 90;
 			thetaX = MAX(thetaX, -60);
 		}
-		if (inputManager.GetKeyState('A')) {
+		if (inputManager.GetKeyState('A') >= KeyPressed) {
 			thetaY += deltaTime * 90;
 			if (thetaY >= 360) thetaY -= 360;
 		}
-		if (inputManager.GetKeyState('S')) {
+		if (inputManager.GetKeyState('S') >= KeyPressed) {
 			thetaX += deltaTime * 90;
 			thetaX = MIN(thetaX, +60);
 		}
-		if (inputManager.GetKeyState('D')) {
+		if (inputManager.GetKeyState('D') >= KeyPressed) {
 			thetaY -= deltaTime * 90;
 			if (thetaY <= 0) thetaY += 360;
+		}
+
+		if (inputManager.GetKeyState(VK_NUMPAD5) == KeyPressed) {
+			if (inputManager.GetKeyState(VK_NUMPAD2) == KeyDown)
+				rubiksCube.Control("i1+");
+			else if (inputManager.GetKeyState(VK_NUMPAD4) == KeyDown)
+				rubiksCube.Control("j1+");
+			else if (inputManager.GetKeyState(VK_NUMPAD6) == KeyDown)
+				rubiksCube.Control("j1-");
+			else if (inputManager.GetKeyState(VK_NUMPAD8) == KeyDown)
+				rubiksCube.Control("i1-");
+		}
+		else if (inputManager.GetKeyState(VK_NUMPAD2) == KeyPressed) {
+			if (inputManager.GetKeyState(VK_NUMPAD1) == KeyDown)
+				rubiksCube.Control("j2+");
+			else if (inputManager.GetKeyState(VK_NUMPAD3) == KeyDown)
+				rubiksCube.Control("j2-");
+		}
+		else if (inputManager.GetKeyState(VK_NUMPAD4) == KeyPressed) {
+			if (inputManager.GetKeyState(VK_NUMPAD1) == KeyDown)
+				rubiksCube.Control("i0+");
+			else if (inputManager.GetKeyState(VK_NUMPAD7) == KeyDown)
+				rubiksCube.Control("i0-");
+		}
+		else if (inputManager.GetKeyState(VK_NUMPAD6) == KeyPressed) {
+			if (inputManager.GetKeyState(VK_NUMPAD3) == KeyDown)
+				rubiksCube.Control("i2+");
+			else if (inputManager.GetKeyState(VK_NUMPAD9) == KeyDown)
+				rubiksCube.Control("i2-");
+		}
+		else if (inputManager.GetKeyState(VK_NUMPAD8) == KeyPressed) {
+			if (inputManager.GetKeyState(VK_NUMPAD7) == KeyDown)
+				rubiksCube.Control("j0+");
+			else if (inputManager.GetKeyState(VK_NUMPAD9) == KeyDown)
+				rubiksCube.Control("j0-");
 		}
 
 		//큐브 렌더링
