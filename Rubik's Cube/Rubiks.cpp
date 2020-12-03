@@ -52,7 +52,7 @@ void Rubiks::Update(double deltaTime) {
 		int index = command[1] - '0';
 		char direction = command[2];
 
-		double rotation = std::min(deltaTime * 360, 90 - abs(theta));
+		double rotation = MIN(deltaTime * 360, 90 - ABS(theta));
 		if (direction == '-') rotation = -rotation;
 
 		if (symbol == 'i')

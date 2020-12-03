@@ -1,8 +1,8 @@
 #pragma once
-#include <algorithm>
 #include <queue>
 #include <string>
 #include "Cube.h"
+#include "macros.h"
 #include "constants.h"
 
 class Rubiks {

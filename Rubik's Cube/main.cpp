@@ -1,78 +1,52 @@
 ﻿#include <algorithm>
 #include "Rubiks.h"
 #include "Engine.h"
+#include "Input.h"
 using namespace std;
 
 class RubiksEngine : public Engine {
 private:
-	double theta;
+	double thetaX, thetaY;
 	Rubiks rubiksCube;
+	Input inputManager;
 
 public:
 	RubiksEngine(short width, short height) : Engine(width, height) {
-		theta = 0;
+		thetaX = 0;
+		thetaY = 0;
 	}
 
 	void OnCreate() override {
-		rubiksCube.Control("k2+");
-		rubiksCube.Control("i2+");
-		rubiksCube.Control("i2-");
-		rubiksCube.Control("j1-");
-		rubiksCube.Control("k0-");
-		rubiksCube.Control("k1-");
-		rubiksCube.Control("k0-");
-		rubiksCube.Control("i2+");
-		rubiksCube.Control("k1-");
-		rubiksCube.Control("i2+");
-		rubiksCube.Control("j2+");
-		rubiksCube.Control("i2+");
-		rubiksCube.Control("k0-");
-		rubiksCube.Control("k0+");
-		rubiksCube.Control("j0+");
-		rubiksCube.Control("k2+");
-		rubiksCube.Control("i0+");
-		rubiksCube.Control("k0-");
-		rubiksCube.Control("i0-");
-		rubiksCube.Control("j1+");
-		rubiksCube.Control("i1-");
-		rubiksCube.Control("j2+");
-		rubiksCube.Control("i2-");
-		rubiksCube.Control("k1+");
-		rubiksCube.Control("i0-");
-		rubiksCube.Control("k0+");
-		rubiksCube.Control("k0+");
-		rubiksCube.Control("j2+");
-		rubiksCube.Control("i1-");
-		rubiksCube.Control("i2-");
-		rubiksCube.Control("k0-");
-		rubiksCube.Control("j2-");
-		rubiksCube.Control("j1+");
-		rubiksCube.Control("j2+");
-		rubiksCube.Control("k1+");
-		rubiksCube.Control("i1+");
-		rubiksCube.Control("j0-");
-		rubiksCube.Control("j2-");
-		rubiksCube.Control("i2+");
-		rubiksCube.Control("k2+");
-		rubiksCube.Control("k0-");
-		rubiksCube.Control("j1+");
-		rubiksCube.Control("j2-");
-		rubiksCube.Control("k1-");
-		rubiksCube.Control("i0-");
-		rubiksCube.Control("k2+");
-		rubiksCube.Control("i2-");
-		rubiksCube.Control("k0-");
-		rubiksCube.Control("k0+");
-		rubiksCube.Control("i0+");
+
 	}
 
 	void OnUpdate(double deltaTime) override {
-		theta += deltaTime * 90; 
-
 		rubiksCube.Update(deltaTime);
 
+		//유저 입력 처리
+		inputManager.UpdateKeyStates();
+
+		if (inputManager.GetKeyState('W')) {
+			thetaX -= deltaTime * 90;
+			thetaX = MAX(thetaX, -60);
+		}
+		if (inputManager.GetKeyState('A')) {
+			thetaY += deltaTime * 90;
+			if (thetaY >= 360) thetaY -= 360;
+		}
+		if (inputManager.GetKeyState('S')) {
+			thetaX += deltaTime * 90;
+			thetaX = MIN(thetaX, +60);
+		}
+		if (inputManager.GetKeyState('D')) {
+			thetaY -= deltaTime * 90;
+			if (thetaY <= 0) thetaY += 360;
+		}
+
+		//큐브 렌더링
 		Rubiks tempCube = rubiksCube;
-		tempCube.Rotate(theta * 1.0, theta * 0.5, theta * 0.75);
+		tempCube.Rotate(0, thetaY, 0);
+		tempCube.Rotate(thetaX, 0, 0);
 		tempCube.Translate(0, 0, 10);
 
 		vector<Cube*> cubes;

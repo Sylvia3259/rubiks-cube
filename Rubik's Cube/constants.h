@@ -41,3 +41,8 @@ const enum COLOR {
 	BG_YELLOW = 0x00E0,
 	BG_WHITE = 0x00F0,
 };
+
+constexpr int KeyDown = 2;
+constexpr int KeyPressed = 1;
+constexpr int KeyUp = -1;
+constexpr int KeyUnpressed = 0;
