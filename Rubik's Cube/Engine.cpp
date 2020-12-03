@@ -28,12 +28,12 @@ void Engine::Run() {
 	isRunning = true;
 
 	OnCreate();
-	ULONGLONG oldTime, currentTime = GetTickCount64();
+	ULONGLONG previousTime, currentTime = GetTickCount64();
 	while (isRunning) {
-		oldTime = currentTime;
+		previousTime = currentTime;
 		currentTime = GetTickCount64();
 		memset(consoleBuffer, 0, sizeof(CHAR_INFO) * consoleSize.X * consoleSize.Y);
-		OnUpdate((currentTime - oldTime) * 0.001);
+		OnUpdate((currentTime - previousTime) * 0.001);
 		WriteConsoleOutput(consoleHandle, consoleBuffer, { consoleSize.X, consoleSize.Y }, { 0, 0 }, &console);
 	}
 	OnDestroy();

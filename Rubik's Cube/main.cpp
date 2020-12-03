@@ -2,6 +2,8 @@
 #include "Rubiks.h"
 #include "Engine.h"
 #include "Input.h"
+#include "macros.h"
+#include "constants.h"
 using namespace std;
 
 class RubiksEngine : public Engine {
@@ -54,11 +56,11 @@ public:
 	void OnCreate() override {
 		srand(GetTickCount64());
 
-		const char* symbols = "ijk";
-		const char* indexes = "012";
-		const char* directions = "+-";
+		const string symbols = "ijk";
+		const string indexes = "012";
+		const string directions = "+-";
 
-		for (int i = 0; i < 20; ++i) {
+		for (int i = 0; i < 25; ++i) {
 			string command = "";
 			command += symbols[rand() % 3];
 			command += indexes[rand() % 3];
@@ -71,8 +73,10 @@ public:
 	void OnUpdate(double deltaTime) override {
 		rubiksCube.Update(deltaTime);
 
-		//유저 입력 처리
 		inputManager.UpdateKeyStates();
+
+		if (inputManager.GetKeyState(VK_ESCAPE) == keyDown)
+			Stop();
 
 		if (inputManager.GetKeyState(VK_UP) >= keyPressed) {
 			thetaX += deltaTime * 120;
@@ -92,7 +96,6 @@ public:
 		}
 
 		vector<string> commandList = GetCommandList();
-
 		if (inputManager.GetKeyState(VK_NUMPAD5) == keyPressed) {
 			if (inputManager.GetKeyState(VK_NUMPAD2) == keyDown)
 				rubiksCube.Control(commandList[0]);
@@ -128,41 +131,37 @@ public:
 				rubiksCube.Control(commandList[11]);
 		}
 
-		//큐브 렌더링
 		Rubiks tempCube = rubiksCube;
 		tempCube.Rotate(0, thetaY, 0);
 		tempCube.Rotate(thetaX, 0, 0);
 		tempCube.Translate(0, 0, 10);
 
-		vector<Cube*> cubes;
-		for (int i = 0; i < 3; ++i)
-			for (int j = 0; j < 3; ++j)
-				for (int k = 0; k < 3; ++k)
-					cubes.push_back(&tempCube.cubes[i][j][k]);
-
 		vector<Triangle> triangles;
-		for (Cube* const cube : cubes) {
-			for (const Triangle& triangle : cube->polygons) {
-				Vector line1, line2, normal;
-				line1 = triangle.points[1] - triangle.points[0];
-				line2 = triangle.points[2] - triangle.points[0];
-				normal = line1.Cross(line2);
-				normal.Normalize();
+		for (int i = 0; i < 3; ++i) {
+			for (int j = 0; j < 3; ++j) {
+				for (int k = 0; k < 3; ++k) {
+					for (const Triangle& triangle : tempCube.cubes[i][j][k].polygons) {
+						Vector line1 = triangle.points[1] - triangle.points[0];
+						Vector line2 = triangle.points[2] - triangle.points[0];
+						Vector normal = line1.Cross(line2);
+						normal.Normalize();
 
-				if (normal.Dot(triangle.points[0]) < 0)
-					triangles.push_back(triangle);
+						if (normal.Dot(triangle.points[0]) < 0)
+							triangles.push_back(triangle);
+					}
+				}
 			}
 		}
 
 		sort(triangles.begin(), triangles.end(), 
 			[](const Triangle& lhs, const Triangle& rhs) {
-				return lhs.points[0].z + lhs.points[1].z + lhs.points[2].z > 
-					rhs.points[0].z + rhs.points[1].z + rhs.points[2].z;
+				const double lhsAverageZ = lhs.points[0].z + lhs.points[1].z + lhs.points[2].z;
+				const double rhsAverageZ = rhs.points[0].z + rhs.points[1].z + rhs.points[2].z;
+				return lhsAverageZ > rhsAverageZ;
 			});
 
 		for (Triangle& triangle : triangles) {
 			triangle.Project(0.1, 1000, 90, (double)GetScreenWidth() / GetScreenHeight());
-
 			triangle.Translate(1, 1, 0);
 			triangle.Scale(GetScreenWidth() * 0.5, GetScreenHeight() * 0.5, 0);
 

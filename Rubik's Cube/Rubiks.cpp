@@ -69,7 +69,7 @@ void Rubiks::Update(double deltaTime) {
 					cubes[i][j][index].Rotate(0, 0, rotation);
 
 		theta += rotation;
-		if (abs(theta) >= 90) {
+		if (ABS(theta) >= 90) {
 			Rubiks tempCube = *this;
 			if (symbol == 'i') {
 				if (direction == '+')
