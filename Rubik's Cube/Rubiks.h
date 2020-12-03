@@ -1,8 +1,7 @@
 #pragma once
-#include <string>
-#include <vector>
-#include <queue>
 #include <algorithm>
+#include <queue>
+#include <string>
 #include "Cube.h"
 #include "constants.h"
 
