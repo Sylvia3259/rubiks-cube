@@ -44,11 +44,6 @@ const enum COLOR {
 	BG_WHITE = 0x00F0,
 };
 
-constexpr int keyDown = 2;
-constexpr int keyPressed = 1;
-constexpr int keyUp = -1;
-constexpr int keyUnpressed = 0;
-
 const std::vector<std::string> commandLists[4][3] = {
 	{
 		{
@@ -119,3 +114,13 @@ const std::vector<std::string> commandLists[4][3] = {
 		},
 	},
 };
+
+constexpr int keyDown = 2;
+constexpr int keyPressed = 1;
+constexpr int keyUp = -1;
+constexpr int keyUnpressed = 0;
+
+constexpr double rotateSpeed = 120;
+constexpr double controlSpeed = 360;
+
+constexpr int shuffleCount = 25;

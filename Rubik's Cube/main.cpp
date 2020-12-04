@@ -61,7 +61,7 @@ public:
 		const string indexes = "012";
 		const string directions = "+-";
 
-		for (int i = 0; i < 25; ++i) {
+		for (int i = 0; i < shuffleCount; ++i) {
 			string command = "";
 			command += symbols[rand() % 3];
 			command += indexes[rand() % 3];
@@ -80,56 +80,55 @@ public:
 			Stop();
 
 		if (inputManager.GetKeyState(VK_UP) >= keyPressed) {
-			thetaX += deltaTime * 120;
+			thetaX += deltaTime * rotateSpeed;
 			thetaX = MIN(thetaX, +60);
 		}
 		if (inputManager.GetKeyState(VK_DOWN) >= keyPressed) {
-			thetaX -= deltaTime * 120;
+			thetaX -= deltaTime * rotateSpeed;
 			thetaX = MAX(thetaX, -60);
 		}
 		if (inputManager.GetKeyState(VK_LEFT) >= keyPressed) {
-			thetaY -= deltaTime * 120;
+			thetaY -= deltaTime * rotateSpeed;
 			if (thetaY <= 0) thetaY += 360;
 		}
 		if (inputManager.GetKeyState(VK_RIGHT) >= keyPressed) {
-			thetaY += deltaTime * 120;
+			thetaY += deltaTime * rotateSpeed;
 			if (thetaY >= 360) thetaY -= 360;
 		}
 
-		vector<string> commandList = GetCommandList();
 		if (inputManager.GetKeyState(VK_NUMPAD5) == keyPressed) {
 			if (inputManager.GetKeyState(VK_NUMPAD2) == keyDown)
-				rubiksCube.Control(commandList[0]);
+				rubiksCube.Control(GetCommandList()[0]);
 			else if (inputManager.GetKeyState(VK_NUMPAD4) == keyDown)
-				rubiksCube.Control(commandList[1]);
+				rubiksCube.Control(GetCommandList()[1]);
 			else if (inputManager.GetKeyState(VK_NUMPAD6) == keyDown)
-				rubiksCube.Control(commandList[2]);
+				rubiksCube.Control(GetCommandList()[2]);
 			else if (inputManager.GetKeyState(VK_NUMPAD8) == keyDown)
-				rubiksCube.Control(commandList[3]);
+				rubiksCube.Control(GetCommandList()[3]);
 		}
 		else if (inputManager.GetKeyState(VK_NUMPAD2) == keyPressed) {
 			if (inputManager.GetKeyState(VK_NUMPAD1) == keyDown)
-				rubiksCube.Control(commandList[4]);
+				rubiksCube.Control(GetCommandList()[4]);
 			else if (inputManager.GetKeyState(VK_NUMPAD3) == keyDown)
-				rubiksCube.Control(commandList[5]);
+				rubiksCube.Control(GetCommandList()[5]);
 		}
 		else if (inputManager.GetKeyState(VK_NUMPAD4) == keyPressed) {
 			if (inputManager.GetKeyState(VK_NUMPAD1) == keyDown)
-				rubiksCube.Control(commandList[6]);
+				rubiksCube.Control(GetCommandList()[6]);
 			else if (inputManager.GetKeyState(VK_NUMPAD7) == keyDown)
-				rubiksCube.Control(commandList[7]);
+				rubiksCube.Control(GetCommandList()[7]);
 		}
 		else if (inputManager.GetKeyState(VK_NUMPAD6) == keyPressed) {
 			if (inputManager.GetKeyState(VK_NUMPAD3) == keyDown)
-				rubiksCube.Control(commandList[8]);
+				rubiksCube.Control(GetCommandList()[8]);
 			else if (inputManager.GetKeyState(VK_NUMPAD9) == keyDown)
-				rubiksCube.Control(commandList[9]);
+				rubiksCube.Control(GetCommandList()[9]);
 		}
 		else if (inputManager.GetKeyState(VK_NUMPAD8) == keyPressed) {
 			if (inputManager.GetKeyState(VK_NUMPAD7) == keyDown)
-				rubiksCube.Control(commandList[10]);
+				rubiksCube.Control(GetCommandList()[10]);
 			else if (inputManager.GetKeyState(VK_NUMPAD9) == keyDown)
-				rubiksCube.Control(commandList[11]);
+				rubiksCube.Control(GetCommandList()[11]);
 		}
 
 		Rubiks tempCube = rubiksCube;
