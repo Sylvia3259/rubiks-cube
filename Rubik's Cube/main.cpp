@@ -140,7 +140,7 @@ public:
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 3; ++j) {
 				for (int k = 0; k < 3; ++k) {
-					for (const Triangle& triangle : tempCube.cubes[i][j][k].polygons) {
+					for (const auto& triangle : tempCube.cubes[i][j][k].polygons) {
 						Vector line1 = triangle.points[1] - triangle.points[0];
 						Vector line2 = triangle.points[2] - triangle.points[0];
 						Vector normal = line1.Cross(line2);
@@ -160,7 +160,7 @@ public:
 				return lhsAverageZ > rhsAverageZ;
 			});
 
-		for (Triangle& triangle : triangles) {
+		for (auto& triangle : triangles) {
 			triangle.Project(0.1, 1000, 90, (double)GetScreenWidth() / GetScreenHeight());
 			triangle.Translate(1, 1, 0);
 			triangle.Scale(GetScreenWidth() * 0.5, GetScreenHeight() * 0.5, 0);

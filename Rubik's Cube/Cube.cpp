@@ -45,19 +45,16 @@ Cube::Cube(double x, double y, double z) {
 }
 
 void Cube::Scale(double x, double y, double z) {
-#pragma omp parallel for
-	for (int i = 0; i < 12; ++i)
-		polygons[i].Scale(x, y, z);
+	for (auto& polygon : polygons)
+		polygon.Scale(x, y, z);
 }
 
 void Cube::Rotate(double x, double y, double z) {
-#pragma omp parallel for
-	for (int i = 0; i < 12; ++i)
-		polygons[i].Rotate(x, y, z);
+	for (auto& polygon : polygons)
+		polygon.Rotate(x, y, z);
 }
 
 void Cube::Translate(double x, double y, double z) {
-#pragma omp parallel for
-	for (int i = 0; i < 12; ++i)
-		polygons[i].Translate(x, y, z);
+	for (auto& polygon : polygons)
+		polygon.Translate(x, y, z);
 }
