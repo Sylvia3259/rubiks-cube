@@ -136,41 +136,41 @@ public:
 		tempCube.Rotate(thetaX, 0, 0);
 		tempCube.Translate(0, 0, 10);
 
-		vector<Triangle> triangles;
+		vector<Triangle> polygons;
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 3; ++j) {
 				for (int k = 0; k < 3; ++k) {
-					for (const auto& triangle : tempCube.cubes[i][j][k].polygons) {
-						Vector line1 = triangle.points[1] - triangle.points[0];
-						Vector line2 = triangle.points[2] - triangle.points[0];
+					for (const auto& polygon : tempCube.cubes[i][j][k].polygons) {
+						Vector line1 = polygon.points[1] - polygon.points[0];
+						Vector line2 = polygon.points[2] - polygon.points[0];
 						Vector normal = line1.Cross(line2);
 						normal.Normalize();
 
-						if (normal.Dot(triangle.points[0]) < 0)
-							triangles.push_back(triangle);
+						if (normal.Dot(polygon.points[0]) < 0)
+							polygons.push_back(polygon);
 					}
 				}
 			}
 		}
 
-		sort(triangles.begin(), triangles.end(), 
+		sort(polygons.begin(), polygons.end(), 
 			[](const Triangle& lhs, const Triangle& rhs) {
 				const double lhsAverageZ = lhs.points[0].z + lhs.points[1].z + lhs.points[2].z;
 				const double rhsAverageZ = rhs.points[0].z + rhs.points[1].z + rhs.points[2].z;
 				return lhsAverageZ > rhsAverageZ;
 			});
 
-		for (auto& triangle : triangles) {
-			triangle.Project(0.1, 1000, 90, (double)GetScreenWidth() / GetScreenHeight());
-			triangle.Translate(1, 1, 0);
-			triangle.Scale(GetScreenWidth() * 0.5, GetScreenHeight() * 0.5, 0);
+		for (auto& polygon : polygons) {
+			polygon.Project(0.1, 1000, 90, (double)GetScreenWidth() / GetScreenHeight());
+			polygon.Translate(1, 1, 0);
+			polygon.Scale(GetScreenWidth() * 0.5, GetScreenHeight() * 0.5, 0);
 
-			if (triangle.color) {
+			if (polygon.color) {
 				FillTriangle(
-					(int)triangle.points[0].x, (int)triangle.points[0].y,
-					(int)triangle.points[1].x, (int)triangle.points[1].y,
-					(int)triangle.points[2].x, (int)triangle.points[2].y,
-					PIXEL_HALF, triangle.color
+					(int)polygon.points[0].x, (int)polygon.points[0].y,
+					(int)polygon.points[1].x, (int)polygon.points[1].y,
+					(int)polygon.points[2].x, (int)polygon.points[2].y,
+					PIXEL_HALF, polygon.color
 				);
 			}
 		}
