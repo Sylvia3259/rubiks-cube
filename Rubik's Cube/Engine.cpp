@@ -23,12 +23,14 @@ void Engine::Run() {
 	isRunning = true;
 
 	OnCreate();
-	ULONGLONG previousTime, currentTime = GetTickCount64();
+	std::chrono::system_clock::time_point previousTime, currentTime;
+	currentTime = std::chrono::system_clock::now();
 	while (isRunning) {
 		previousTime = currentTime;
-		currentTime = GetTickCount64();
+		currentTime = std::chrono::system_clock::now();
+		std::chrono::duration<double> deltaTime = currentTime - previousTime;
 		memset(consoleBuffer, 0, sizeof(CHAR_INFO) * consoleSize.X * consoleSize.Y);
-		OnUpdate((currentTime - previousTime) * 0.001);
+		OnUpdate(deltaTime.count());
 		WriteConsoleOutput(consoleHandle, consoleBuffer, { consoleSize.X, consoleSize.Y }, { 0, 0 }, &console);
 	}
 	OnDestroy();
