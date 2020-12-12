@@ -1,4 +1,5 @@
 ﻿#include <algorithm>
+#include <random>
 #include "Rubiks.h"
 #include "Engine.h"
 #include "Input.h"
@@ -55,17 +56,20 @@ public:
 	}
 
 	void OnCreate() override {
-		srand((unsigned int)GetTickCount64());
-
 		const string symbols = "ijk";
 		const string indexes = "012";
 		const string directions = "+-";
 
+		default_random_engine randomEngine;
+		uniform_int_distribution<int> symbolRange(0, 2);
+		uniform_int_distribution<int> indexRange(0, 2);
+		uniform_int_distribution<int> directionRange(0, 1);
+
 		for (int i = 0; i < shuffleCount; ++i) {
 			string command = "";
-			command += symbols[rand() % 3];
-			command += indexes[rand() % 3];
-			command += directions[rand() % 2];
+			command += symbols[symbolRange(randomEngine)];
+			command += indexes[indexRange(randomEngine)];
+			command += directions[directionRange(randomEngine)];
 
 			rubiksCube.Control(command);
 		}
