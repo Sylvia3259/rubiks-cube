@@ -100,12 +100,6 @@ void Engine::DrawLine(int x1, int y1, int x2, int y2, wchar_t pixel, short color
 }
 
 void Engine::DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, wchar_t pixel, short color) {
-	DrawLine(x1, y1, x2, y2, pixel, color);
-	DrawLine(x2, y2, x3, y3, pixel, color);
-	DrawLine(x3, y3, x1, y1, pixel, color);
-}
-
-void Engine::FillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, wchar_t pixel, short color) {
 	if (y1 > y3) {
 		SWAP(int, x1, x3);
 		SWAP(int, y1, y3);

@@ -170,7 +170,7 @@ public:
 			polygon.Scale(GetScreenWidth() * 0.5, GetScreenHeight() * 0.5, 0);
 
 			if (polygon.color) {
-				FillTriangle(
+				DrawTriangle(
 					(int)polygon.points[0].x, (int)polygon.points[0].y,
 					(int)polygon.points[1].x, (int)polygon.points[1].y,
 					(int)polygon.points[2].x, (int)polygon.points[2].y,

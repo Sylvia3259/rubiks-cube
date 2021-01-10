@@ -30,5 +30,4 @@ public:
 	void DrawPixel(int x, int y, wchar_t pixel, short color);
 	void DrawLine(int x1, int y1, int x2, int y2, wchar_t pixel, short color);
 	void DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, wchar_t pixel, short color);
-	void FillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, wchar_t pixel, short color);
 };
