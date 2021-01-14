@@ -23,14 +23,14 @@ void Engine::Run() {
 	isRunning = true;
 
 	OnCreate();
-	std::chrono::system_clock::time_point previousTime, currentTime;
-	currentTime = std::chrono::system_clock::now();
+	LARGE_INTEGER previousTime, currentTime, frequency;
+	QueryPerformanceFrequency(&frequency);
+	QueryPerformanceCounter(&currentTime);
 	while (isRunning) {
 		previousTime = currentTime;
-		currentTime = std::chrono::system_clock::now();
-		std::chrono::duration<double> deltaTime = currentTime - previousTime;
+		QueryPerformanceCounter(&currentTime);
 		memset(consoleBuffer, 0, sizeof(CHAR_INFO) * consoleSize.X * consoleSize.Y);
-		OnUpdate(deltaTime.count());
+		OnUpdate((double)(currentTime.QuadPart - previousTime.QuadPart) / frequency.QuadPart);
 		WriteConsoleOutput(consoleHandle, consoleBuffer, { consoleSize.X, consoleSize.Y }, { 0, 0 }, &console);
 	}
 	OnDestroy();

@@ -1,6 +1,4 @@
 #pragma once
-#include <cmath>
-#include <chrono>
 #include <Windows.h>
 #include "macros.h"
 
