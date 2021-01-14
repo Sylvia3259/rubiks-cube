@@ -49,35 +49,7 @@ private:
 		return commandLists[0][0];
 	}
 
-public:
-	RubiksEngine(short width, short height) : Engine(width, height) {
-		thetaX = 45;
-		thetaY = 45;
-	}
-
-	void OnCreate() override {
-		const string symbols = "ijk";
-		const string indexes = "012";
-		const string directions = "+-";
-
-		default_random_engine randomEngine;
-		uniform_int_distribution<int> symbolRange(0, 2);
-		uniform_int_distribution<int> indexRange(0, 2);
-		uniform_int_distribution<int> directionRange(0, 1);
-
-		for (int i = 0; i < shuffleCount; ++i) {
-			string command = "";
-			command += symbols[symbolRange(randomEngine)];
-			command += indexes[indexRange(randomEngine)];
-			command += directions[directionRange(randomEngine)];
-
-			rubiksCube.Control(command);
-		}
-	}
-
-	void OnUpdate(double deltaTime) override {
-		rubiksCube.Update(deltaTime);
-
+	void HandleUserInput(double deltaTime) {
 		inputManager.UpdateKeyStates();
 
 		if (inputManager.GetKeyState(VK_ESCAPE) == keyDown)
@@ -134,6 +106,38 @@ public:
 			else if (inputManager.GetKeyState(VK_NUMPAD9) == keyDown)
 				rubiksCube.Control(GetCommandList()[11]);
 		}
+	}
+
+public:
+	RubiksEngine(short width, short height) : Engine(width, height) {
+		thetaX = 45;
+		thetaY = 45;
+	}
+
+	void OnCreate() override {
+		const string symbols = "ijk";
+		const string indexes = "012";
+		const string directions = "+-";
+
+		default_random_engine randomEngine;
+		uniform_int_distribution<int> symbolRange(0, 2);
+		uniform_int_distribution<int> indexRange(0, 2);
+		uniform_int_distribution<int> directionRange(0, 1);
+
+		for (int i = 0; i < shuffleCount; ++i) {
+			string command = "";
+			command += symbols[symbolRange(randomEngine)];
+			command += indexes[indexRange(randomEngine)];
+			command += directions[directionRange(randomEngine)];
+
+			rubiksCube.Control(command);
+		}
+	}
+
+	void OnUpdate(double deltaTime) override {
+		HandleUserInput(deltaTime);
+
+		rubiksCube.Update(deltaTime);
 
 		Rubiks tempCube = rubiksCube;
 		tempCube.Rotate(0, thetaY, 0);
