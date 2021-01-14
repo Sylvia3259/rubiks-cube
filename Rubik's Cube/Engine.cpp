@@ -113,17 +113,17 @@ void Engine::DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, wchar_
 		SWAP(int, y2, y3);
 	}
 
-	int x4 = (int)(x1 + ((float)(y2 - y1) / (y3 - y1)) * (x3 - x1));
+	int x4 = (int)(x1 + (((double)y2 - y1) / ((double)y3 - y1)) * ((double)x3 - x1));
 
-	float cx1 = (float)x1;
-	float cx2 = (float)x1;
-	float cx3 = (float)x3;
-	float cx4 = (float)x3;
+	double cx1 = x1;
+	double cx2 = x1;
+	double cx3 = x3;
+	double cx4 = x3;
 
-	float dx1 = (float)(x2 - x1) / (y2 - y1);
-	float dx2 = (float)(x4 - x1) / (y2 - y1);
-	float dx3 = (float)(x3 - x2) / (y3 - y2);
-	float dx4 = (float)(x3 - x4) / (y3 - y2);
+	double dx1 = ((double)x2 - x1) / ((double)y2 - y1);
+	double dx2 = ((double)x4 - x1) / ((double)y2 - y1);
+	double dx3 = ((double)x3 - x2) / ((double)y3 - y2);
+	double dx4 = ((double)x3 - x4) / ((double)y3 - y2);
 
 	for (int y = y1; y <= y2; ++y) {
 		DrawLine((int)cx1, y, (int)cx2, y, pixel, color);
