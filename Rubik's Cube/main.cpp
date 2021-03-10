@@ -119,7 +119,7 @@ public:
 		const string indexes = "012";
 		const string directions = "+-";
 
-		default_random_engine randomEngine;
+		default_random_engine randomEngine(random_device{}());
 		uniform_int_distribution<int> symbolRange(0, 2);
 		uniform_int_distribution<int> indexRange(0, 2);
 		uniform_int_distribution<int> directionRange(0, 1);
