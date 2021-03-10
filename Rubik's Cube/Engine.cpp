@@ -71,7 +71,7 @@ void Engine::DrawLine(int x1, int y1, int x2, int y2, wchar_t pixel, short color
 		err = dy - (dx >> 1);
 		while (x1 != x2) {
 			if (err >= 0) {
-				if ((err != 0) || (ix > 0)) {
+				if (err || ix > 0) {
 					y1 += iy;
 					err -= dx;
 				}
@@ -86,7 +86,7 @@ void Engine::DrawLine(int x1, int y1, int x2, int y2, wchar_t pixel, short color
 		err = dx - (dy >> 1);
 		while (y1 != y2) {
 			if (err >= 0) {
-				if ((err != 0) || (iy > 0)) {
+				if (err || iy > 0) {
 					x1 += ix;
 					err -= dy;
 				}
