@@ -3,14 +3,6 @@
 #include "macros.h"
 
 class Engine {
-private:
-	bool isRunning;
-
-	HANDLE consoleHandle;
-	COORD consoleSize;
-	SMALL_RECT console;
-	CHAR_INFO* consoleBuffer;
-
 public:
 	Engine(short width, short height);
 	~Engine();
@@ -28,4 +20,12 @@ public:
 	void DrawPixel(int x, int y, wchar_t pixel, short color);
 	void DrawLine(int x1, int y1, int x2, int y2, wchar_t pixel, short color);
 	void DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, wchar_t pixel, short color);
+
+private:
+	bool isRunning;
+
+	HANDLE consoleHandle;
+	COORD consoleSize;
+	SMALL_RECT console;
+	CHAR_INFO* consoleBuffer;
 };
