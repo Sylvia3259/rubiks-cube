@@ -22,6 +22,5 @@ public:
 	Vector operator+() const;
 	Vector operator-() const;
 	Vector operator*(double k) const;
+	friend Vector operator*(double k, const Vector& v);
 };
-
-Vector operator*(double k, const Vector& v);
