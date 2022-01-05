@@ -10,7 +10,7 @@ Engine::Engine(short width, short height) {
 	SetConsoleCursorInfo(consoleHandle, &cursorInfo);
 	consoleSize = { width, height };
 	SetConsoleScreenBufferSize(consoleHandle, consoleSize);
-	console = { 0, 0, width - 1, height - 1 };
+	console = { 0, 0, (short)(width - 1), (short)(height - 1) };
 	SetConsoleWindowInfo(consoleHandle, TRUE, &console);
 	consoleBuffer = new CHAR_INFO[(long long)width * height];
 }
